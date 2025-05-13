@@ -1,7 +1,10 @@
 {
   "gitmoji.addCustomEmoji": [
-
-	
+    {
+      "emoji": "🎉 init: ",
+      "code": ":init:",
+      "description": "초기 셋팅"
+    },
     {
       "emoji": "✨ feat: ",
       "code": ":feat:",
@@ -52,13 +55,13 @@
       "code": ":conf:",
       "description": "설정파일 추가/수정"
     },
-		{
-			"emoji": "🧪 test: ",
-			"code": ":test:",
-			"description": "테스트 관련"
-		}
+    {
+      "emoji": "🧪 test: ",
+      "code": ":test:",
+      "description": "테스트 관련"
+    }
   ],
-	"gitmoji.onlyUseCustomEmoji": true,
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"editor.formatOnSave": true
+  "gitmoji.onlyUseCustomEmoji": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true
 }

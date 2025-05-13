@@ -1,13 +1,159 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko-KR">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
+    <title>개발자 키우기</title>
   </head>
   <body>
-    <div id="app">test! 다시 test!</div>
-    <script type="module" src="/src/main.ts"></script>
+    <style>
+      /* wrap(인트로/게임진행/엔딩) - intro/play/ending */
+      [data-page-wrap] [data-page] {
+        display: none;
+      }
+      [data-page-wrap="intro"] [data-page="intro"] {
+        display: block;
+      }
+      [data-page-wrap="play"] [data-page="play"] {
+        display: block;
+      }
+      [data-page-wrap="ending"] [data-page="ending"] {
+        display: block;
+      }
+
+      /* play(게임진행) - main/eat/study/gym/clean */
+      [data-vis-wrap] [data-vis] {
+        display: none;
+      }
+      [data-vis-wrap="main"] [data-vis="main"] {
+        display: block;
+      }
+      [data-vis-wrap="eat"] [data-vis="eat"] {
+        display: block;
+      }
+      [data-vis-wrap="study"] [data-vis="study"] {
+        display: block;
+      }
+      [data-vis-wrap="gym"] [data-vis="gym"] {
+        display: block;
+      }
+      [data-vis-wrap="clean"] [data-vis="clean"] {
+        display: block;
+      }
+    </style>
+
+    <div id="damagochi_wrap" data-page-wrap="intro">
+      <div class="inner">
+        <section data-page="intro">
+          <h1>개발자 키우기</h1>
+          <p>개발자 이름을 입력해주세요.</p>
+
+          <label for="username" hidden>개발자 이름: </label>
+          <input type="text" id="username" name="username" placeholder="ex&rpar; 홍길동" />
+          <a href="src/pages/main/index.html">시작하기</a>
+        </section>
+
+        <section data-page="play">
+          <div id="visual_wrap" data-vis-wrap="main">
+            <div data-vis="main">메인 - 이미지(background-image)</div>
+            <div data-vis="eat">밥먹기 - 이미지(background-image)</div>
+            <div data-vis="study">공부하기 - 이미지(background-image)</div>
+            <div data-vis="gym">운동하기 - 이미지(background-image)</div>
+            <div data-vis="clean">청소하기 - 이미지(background-image)</div>
+          </div>
+
+          <div id="button_wrap">
+            <button type="button" data-btn="eat">밥먹기</button>
+            <button type="button" data-btn="study">공부하기</button>
+            <button type="button" data-btn="gym">운동하기</button>
+            <button type="button" data-btn="clean">청소하기</button>
+          </div>
+        </section>
+
+        <section data-page="ending">
+          <div data-vis="ending">개발자 취업됨</div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const mainButtons = document.querySelectorAll("[data-page='play'] [data-btn]");
+        for (const button of mainButtons) {
+          button.addEventListener("click", event => {
+            //console.log(event.target);
+
+            if (button.dataset.btn === "eat") {
+              eatFnc();
+            } else if (button.dataset.btn === "study") {
+              studyFnc();
+            } else if (button.dataset.btn === "gym") {
+              gymFnc();
+            } else if (button.dataset.btn === "clean") {
+              cleanFnc();
+            }
+          });
+        }
+
+        //체력 포인트(0~100): 0이되면 초기화(=사망)
+        //체력 포인트 감소 기준: 10초에 1씩 감소
+        //밥먹기, 운동하기, 공부하기, 청소하기 진행 중에는 체력포인트가 감소하지 멈춘다.
+        //밥먹기를 진행했을 때 수치가 오른다.
+        let hpPoint = 0;
+
+        //경험치 포인트(0~100), 3단계: 공부하기(study), 운동하기(gym) 진행 시
+        //0~30: 하수단계
+        //31~60: 중수단계
+        //61~99: 고수단계
+        //100이상: ending
+        let exPoint = 0;
+
+        //초기화 함수
+        function initFnc() {
+          hpPoint = 100;
+          exPoint = 0;
+
+          // [data-page-wrap="intro"]로 페이지 이동
+        }
+        initFnc();
+        //console.log(hpPoint, exPoint);
+
+        //잠자기 함수 - hpPoint증가
+        //잠자기 버튼, 일어나기 버튼 추가 돼야함
+        //10초에 1씩 증가
+        function sleepFnc() {
+          console.log("잠자기 함수 연결");
+        }
+
+        //밥먹기 함수 - hpPoint증가
+        function eatFnc() {
+          console.log("밥먹기 함수 연결");
+          //핫식스 이미지 - 하수단계 (+30)
+          //햄버거 이미지 - 중수단계 (+60)
+          //돈까스 이미지 - 고수단계 (+100)
+        }
+
+        //공부하기 함수 - exPoint증가 (+4)
+        function studyFnc() {
+          console.log("공부하기 함수 연결");
+          //ox퀴즈 맞추기 - 총문제(4문제), 맞춘 갯수에 따라 exPoint 증가
+        }
+
+        //운동하기 함수 - exPoint증가 (+2)
+        function gymFnc() {
+          console.log("운동하기 함수 연결");
+          //스페이스바 채우기 - 제한시간(1분)
+        }
+
+        //청소하기 함수 - exPoint증가 (+2)
+        function cleanFnc() {
+          console.log("청소하기 함수 연결");
+          //쓰레기 클릭해서 없애기 - 제한시간(1분), 총점(100점), 한개당포인트(10점)
+        }
+
+        //엔딩 함수
+        function endingFnc() {}
+      });
+    </script>
   </body>
 </html>

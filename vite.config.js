@@ -14,3 +14,4 @@ export default defineConfig({
   },
   appType: 'mpa', // fallback 사용안함
 });
+

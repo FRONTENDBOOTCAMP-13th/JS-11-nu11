@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>청소하기 게임 규칙칙</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="./cleaning.ts"></script>
+  </head>
+  <body>
+    <div class="flex flex-col items-center justify-center h-screen px-4">
+      <div class="text-[20px] font-bold px-10 py-10 leading-relaxed flex flex-col gap-y-4 border-4 border-black max-w-[562px] max-h-dvw text-left">
+        <div>청소하기 - 쓰레기가 하늘에서</div>
+        <div>조작방법: 화면에 랜덤으로 떨어지는 레드불 캔을 클릭하여 없애야 합니다.</div>
+        <div>제한시간: 게임시간은 60초입니다. 60초가 지나면 게임이 자동으로 종료 됩니다.</div>
+        <div>성공조건: 60초 내 랜덤으로 떨어지는 레드불 캔을 모두 클릭하면 성공입니다.</div>
+        <div>실패조건: 60초 내 레드불 캔을 모두 처리하지 못하면 실패입니다.</div>
+        <div>보상 시스템:</div>
+        <div>성공 시: 경험치 획득</div>
+        <div>실패 시: 경험치 없음</div>
+        <div id="gameStartBtn" class="text-xl text-center border-4 border-black px-4 py-2 font-sans cursor-pointer">START</div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OX 퀴즈</title>
+    <script type="module" src="./ox-quiz-1.ts"></script>
+  </head>
+  <body>
+    <div class="relative w-full max-w-4xl mx-auto">
+      <img src="./assets/white-board.png" alt="퀴즈 배경" class="w-full" />
+
+      <div class="absolute top-8 left-6 sm:top-12 sm:left-10 text-white text-lg sm:text-2xl font-bold leading-snug drop-shadow">
+        <p>문제 1.</p>
+        <p>자바스크립트 함수는 1급 객체이다.</p>
+      </div>
+
+      <div class="absolute bottom-10 left-10 flex gap-6">
+        <button id="btn-true" class="bg-white px-6 py-4 rounded-lg text-blue-500 text-3xl font-bold shadow-md hover:scale-125 transition">O</button>
+        <button id="btn-false" class="bg-white px-6 py-4 rounded-lg text-red-500 text-3xl font-bold shadow-md hover:scale-125 transition">X</button>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,89 @@
+@font-face {
+	font-family: "SUIT";
+	font-weight: 100;
+	font-style: normal;
+	src: url("../fonts/suit/SUIT-Thin.otf") format("opentype"),
+		url("../fonts/suit/SUIT-Thin.woff2") format("woff2"),
+		url("../fonts/suit/SUIT-Thin.ttf") format("truetype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "SUIT";
+	font-weight: 200;
+	font-style: normal;
+	src: url("../fonts/suit/SUIT-ExtraLight.otf") format("opentype"),
+		url("../fonts/suit/SUIT-ExtraLight.woff2") format("woff2"),
+		url("../fonts/suit/SUIT-ExtraLight.ttf") format("truetype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "SUIT";
+	font-weight: 300;
+	font-style: normal;
+	src: url("../fonts/suit/SUIT-Light.otf") format("opentype"),
+		url("../fonts/suit/SUIT-Light.woff2") format("woff2"),
+		url("../fonts/suit/SUIT-Light.ttf") format("truetype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "SUIT";
+	font-weight: 400;
+	font-style: normal;
+	src: url("../fonts/suit/SUIT-Regular.otf") format("opentype"),
+		url("../fonts/suit/SUIT-Regular.woff2") format("woff2"),
+		url("../fonts/suit/SUIT-Regular.ttf") format("truetype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "SUIT";
+	font-weight: 500;
+	font-style: normal;
+	src: url("../fonts/suit/SUIT-Medium.otf") format("opentype"),
+		url("../fonts/suit/SUIT-Medium.woff2") format("woff2"),
+		url("../fonts/suit/SUIT-Medium.ttf") format("truetype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "SUIT";
+	font-weight: 600;
+	font-style: normal;
+	src: url("../fonts/suit/SUIT-SemiBold.otf") format("opentype"),
+		url("../fonts/suit/SUIT-SemiBold.woff2") format("woff2"),
+		url("../fonts/suit/SUIT-SemiBold.ttf") format("truetype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "SUIT";
+	font-weight: 700;
+	font-style: normal;
+	src: url("../fonts/suit/SUIT-Bold.otf") format("opentype"),
+		url("../fonts/suit/SUIT-Bold.woff2") format("woff2"),
+		url("../fonts/suit/SUIT-Bold.ttf") format("truetype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "SUIT";
+	font-weight: 800;
+	font-style: normal;
+	src: url("../fonts/suit/SUIT-ExtraBold.otf") format("opentype"),
+		url("../fonts/suit/SUIT-ExtraBold.woff2") format("woff2"),
+		url("../fonts/suit/SUIT-ExtraBold.ttf") format("truetype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "SUIT";
+	font-weight: 900;
+	font-style: normal;
+	src: url("../fonts/suit/SUIT-Heavy.otf") format("opentype"),
+		url("../fonts/suit/SUIT-Heavy.woff2") format("woff2"),
+		url("../fonts/suit/SUIT-Heavy.ttf") format("truetype");
+	font-display: swap;
+}

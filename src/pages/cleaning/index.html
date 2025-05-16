@@ -1,12 +1,72 @@
 <!doctype html>
 <html lang="ko-KR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>메인</title>
-    <script type="module" src="./cleaning.ts"></script>
-  </head>
-  <body>
-    <div class="bg-amber-500">청소청소</div>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>메인</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="./cleaning.ts"></script>
+  <style>
+    [data-cleaning-wrap] [data-cleaning-page] {
+      display: none;
+    }
+
+    [data-cleaning-wrap="intro"] [data-cleaning-page="intro"] {
+      display: block;
+    }
+
+    [data-cleaning-wrap="play"] [data-cleaning-page="page"] {
+      display: block;
+    }
+  </style>
+</head>
+
+<body class="h-screen w-screen flex items-center mt-50 justify-center overflow-hidden">
+  <!-- 중앙 정렬의 기준이 되는 div -->
+  <div data-cleaning-wrap="intro">
+    <!-- ✅ Intro Page -->
+    <div id="introPage" class="flex flex-col items-center justify-center h-screen text-center"
+      data-cleaning-page="intro">
+      <!-- ✅ 텍스트 + 이미지 묶음 -->
+      <div class="flex flex-col items-start">
+        <!-- 🟡 여기서 텍스트 위치 조정 가능 (margin 사용) -->
+        <div class="text-3xl font-bold font-SUIT-Bold mb-4  animate-bounce">
+          청소하기
+        </div>
+
+        <!-- 🟡 이미지 위치나 크기 조정 가능 -->
+        <img src="../cleaning/img/character.svg" alt="청소하는 사람" class="h-[400px] mb-6" />
+      </div>
+
+      <!-- ✅ 버튼 영역 -->
+      <!-- 🟡 버튼 위치나 정렬 조정 가능 (justify-between, gap 등) -->
+      <div class="flex justify-between gap-35">
+        <div id="returnMainPageBtn"
+          class="flex-1 font-bold font-SUIT-Bold text-xl border-4 border-black px-4 py-2 cursor-pointer hover:bg-red-200 text-center">
+          돌아가기
+        </div>
+        <div id="startGameBtn"
+          class="flex-1 font-bold font-SUIT-Bold text-xl border-4 border-black px-4 py-2 cursor-pointer hover:bg-blue-300 text-center">
+          GAME START
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Page -->
+    <div id="goGame" class="flex flex-col h-screen p-4" data-cleaning-page="page">
+      <!-- 상단 헤더: 좌우 끝 배치 -->
+      <div class="flex justify-between items-center mb-4 w-full text-center">
+        <div class="text-3xl font-bold font-SUIT-Bold">청소하기</div>
+        <div id="score" class="text-3xl font-bold font-SUIT-Bold">0/10</div>
+      </div>
+
+      <!-- 게임 플레이 공간 -->
+      <div id="gameArea" class="relative h-[400px] bg-white w-[500px] rounded-md shadow-md border-4 overflow-hidden">
+      </div>
+
+    </div>
+  </div>
+</body>
+
 </html>

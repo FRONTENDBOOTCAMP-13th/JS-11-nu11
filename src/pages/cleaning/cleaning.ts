@@ -89,7 +89,7 @@ function spawnCan() {
 }
 
 // 게임 시작 시 캔 여러개 동시에 떨어지도록 초기화
-const initialCans = 3;
+const initialCans = 6;
 for (let i = 0; i < initialCans; i++) {
   setTimeout(spawnCan, i * 1000); // 1초 간격으로 시작
 }

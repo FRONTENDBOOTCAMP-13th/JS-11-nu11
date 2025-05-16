@@ -22,47 +22,53 @@
   </style>
 </head>
 
-<body class="h-screen w-screen flex items-center mt-50 justify-center overflow-hidden">
+<body class="flex items-center justify-center overflow-hidden">
   <!-- 중앙 정렬의 기준이 되는 div -->
-  <div data-cleaning-wrap="intro">
+  <div data-cleaning-wrap="play">
     <!-- ✅ Intro Page -->
-    <div id="introPage" class="flex flex-col items-center justify-center h-screen text-center"
+    <div id="introPage" class="w-[1000px] h-[1076px] flex flex-col border border-gray-300 shadow-lg"
       data-cleaning-page="intro">
       <!-- ✅ 텍스트 + 이미지 묶음 -->
-      <div class="flex flex-col items-start">
+      <div class="flex flex-col">
         <!-- 🟡 여기서 텍스트 위치 조정 가능 (margin 사용) -->
-        <div class="text-3xl font-bold font-SUIT-Bold mb-4  animate-bounce">
+        <div class="text-[60px] h-[133px] w-[1000px] text-start px-[50px] py-[30px] font-bold font-SUIT-Bold">
           청소하기
         </div>
 
         <!-- 🟡 이미지 위치나 크기 조정 가능 -->
-        <img src="../cleaning/img/character.svg" alt="청소하는 사람" class="h-[400px] mb-6" />
+        <img src="../cleaning/img/character.svg" alt="청소하는 사람" class="h-[740px] w-[900px] mx-[50px] " />
+
+        <!-- ✅ 버튼 영역 -->
+        <!-- 🟡 버튼 위치나 정렬 조정 가능 (justify-between, gap 등) -->
+        <div class="flex justify-between gap-35 h-[200px] w-[1000px] px-[50px] p-[50px] ">
+          <div id="returnMainPageBtn"
+            class="flex font-bold font-SUIT-Bold text-[40px] py-[15px] px-[20px] border-3 cursor-pointer text-center">
+            돌아가기
+          </div>
+          <div id="startGameBtn"
+            class="flex my-[5px] font-bold font-SUIT-Bold text-[40px] py-[10px] px-[20px] border-3 cursor-pointer text-center">
+            GAME START
+          </div>
+        </div>
+
       </div>
 
-      <!-- ✅ 버튼 영역 -->
-      <!-- 🟡 버튼 위치나 정렬 조정 가능 (justify-between, gap 등) -->
-      <div class="flex justify-between gap-35">
-        <div id="returnMainPageBtn"
-          class="flex-1 font-bold font-SUIT-Bold text-xl border-4 border-black px-4 py-2 cursor-pointer hover:bg-red-200 text-center">
-          돌아가기
-        </div>
-        <div id="startGameBtn"
-          class="flex-1 font-bold font-SUIT-Bold text-xl border-4 border-black px-4 py-2 cursor-pointer hover:bg-blue-300 text-center">
-          GAME START
-        </div>
-      </div>
+
     </div>
 
     <!-- Game Page -->
-    <div id="goGame" class="flex flex-col h-screen p-4" data-cleaning-page="page">
+    <div id="goGame" class="flex items-center justify-center overflow-hidden" data-cleaning-page="page">
       <!-- 상단 헤더: 좌우 끝 배치 -->
-      <div class="flex justify-between items-center mb-4 w-full text-center">
-        <div class="text-3xl font-bold font-SUIT-Bold">청소하기</div>
-        <div id="score" class="text-3xl font-bold font-SUIT-Bold">0/10</div>
-      </div>
+      <div class="w-[1000px] h-[1076px] flex flex-col border border-gray-300 shadow-lg">
+        <div class="flex justify-between items-center mb-4 w-full text-center">
+          <div class="text-[60px] h-[133px] w-[1000px] text-start px-[50px] py-[30px] font-bold font-SUIT-Bold">청소하기
+          </div>
+          <div id="score" class="text-3xl font-bold font-SUIT-Bold">0/10</div>
+        </div>
 
-      <!-- 게임 플레이 공간 -->
-      <div id="gameArea" class="relative h-[400px] bg-white w-[500px] rounded-md shadow-md border-4 overflow-hidden">
+        <!-- 게임 플레이 공간 -->
+        <div id="gameArea" class="relative h-[740px] bg-white w-[1000px] rounded-md shadow-md border-4 overflow-hidden">
+        </div>
       </div>
 
     </div>

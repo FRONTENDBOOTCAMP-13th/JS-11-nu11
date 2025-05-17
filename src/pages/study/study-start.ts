@@ -53,7 +53,7 @@ const btnTrue = document.getElementById("btn-true");
 const btnFalse = document.getElementById("btn-false");
 
 /**
- * 유저가 고른 답과 실제 문제의 답이 같으면 true 반환
+ * 유저가 고른 답과 실제 문제의 답이 같으면 true 반
  * 유저가 고른 답과 실제 문제의 답이 틀리면 false 반환
  * @param userAnswer
  * @param correctAnswer

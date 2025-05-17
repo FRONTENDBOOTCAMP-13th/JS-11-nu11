@@ -1,16 +1,33 @@
 import "./style.css";
 const root = document.querySelector("[data-cleaning-wrap]") as HTMLElement;
 const startGameBtn = document.getElementById("startGameBtn")!;
-const returnMainPageBtn = document.getElementById("returnMainPageBtn")!;
+const returnMainBtn = document.getElementById("returnMainBtn")!;
 
 // 게임 시작 버튼 → 같은 페이지 내 화면 전환
 startGameBtn.addEventListener("click", () => {
   root.setAttribute("data-cleaning-wrap", "play");
+
+  // 일정 간격으로 캔 생성
+  const spawnInterval = setInterval(() => {
+    if (spawnedCanCount < maxCanCount) {
+      createFallingCan();
+      spawnedCanCount++;
+    } else {
+      clearInterval(spawnInterval);
+    }
+  }, spawnIntervalMs);
 });
 
-// 돌아가기 버튼 → 실제 다른 페이지로 이동
-returnMainPageBtn.addEventListener("click", () => {
+// 돌아가기 버튼 메인 페이지
+returnMainBtn.addEventListener("click", () => {
   window.location.href = "../main/index.html";
+});
+
+// 돌아가기 버튼들 → 공통 class 사용하여 한 번에 처리
+document.querySelectorAll(".return-game-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    root.setAttribute("data-cleaning-wrap", "intro");
+  });
 });
 
 // Game Page
@@ -76,17 +93,6 @@ function createFallingCan() {
     }
   }, 5); // 약 60fps
 }
-
-// 일정 간격으로 캔 생성
-
-const spawnInterval = setInterval(() => {
-  if (spawnedCanCount < maxCanCount) {
-    createFallingCan();
-    spawnedCanCount++;
-  } else {
-    clearInterval(spawnInterval);
-  }
-}, spawnIntervalMs);
 
 function checkGameEnd() {
   if (removedCanCount == maxCanCount) {

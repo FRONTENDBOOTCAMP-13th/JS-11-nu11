@@ -28,8 +28,7 @@
   <body>
     <!-- 중앙 정렬의 기준이 되는 div -->
     <div class="w-screen h-screen flex items-center justify-center overflow-hidden">
-      <div data-cleaning-wrap="intro">
-        <!-- <div data-cleaning-wrap="play"> -->
+      <div data-cleaning-wrap="success">
         <!-- ✅ Intro Page -->
         <div id="introPage" class="w-[1000px] h-[1076px] flex flex-col border" data-cleaning-page="intro">
           <!-- ✅ 텍스트 + 이미지 묶음 -->
@@ -42,7 +41,7 @@
             <!-- ✅ 버튼 영역 -->
             <!-- 🟡 버튼 위치나 정렬 조정 가능 (justify-between, gap 등) -->
             <div class="flex justify-between gap-35 h-[200px] w-[1000px] px-[50px] p-[50px]">
-              <div id="returnMainPageBtn" class="flex font-bold font-SUIT-Bold text-[40px] py-[15px] px-[20px] border-3 cursor-pointer text-center">돌아가기</div>
+              <div id="returnMainBtn" class="flex font-bold font-SUIT-Bold text-[40px] py-[15px] px-[20px] border-3 cursor-pointer text-center">돌아가기</div>
               <div id="startGameBtn" class="flex my-[5px] font-bold font-SUIT-Bold text-[40px] py-[10px] px-[20px] border-3 cursor-pointer text-center">GAME START</div>
             </div>
           </div>
@@ -72,9 +71,15 @@
             </div>
 
             <!-- 결과창 공간 -->
-            <div id="resultArea" class="relative h-[740px] bg-white w-[900px] rounded-md shadow-md border overflow-hidden">성공!</div>
+            <div id="resultArea" class="relative h-[740px] bg-white w-[900px] rounded-md shadow-md border flex flex-col justify-center items-center text-center overflow-hidden">
+              <div class="w-[626px] h-[257px] ">
+                <div class="font-bold text-[80px]">END</div> </br>
+                <div class="font-bold text-[60px] text-[#AED400]">청소 완료</div>
+                <div class="font-bold text-[30px] text-[#AAAAAA]" style="letter-spacing: -0.05em;">방이 깨끗해졌어요.</div>
+              </div>
+            </div>
             <div class="flex justify-between gap-35 h-[200px] w-[1000px] px-[50px] p-[50px]">
-              <div id="returnMainPageBtn" class="flex font-bold font-SUIT-Bold text-[40px] py-[15px] px-[20px] border-3 cursor-pointer text-center">돌아가기</div>
+              <div class="return-game-btn flex font-bold font-SUIT-Bold text-[40px] py-[15px] px-[20px] border-3 cursor-pointer text-center">돌아가기</div>
             </div>
           </div>
         </div>
@@ -88,9 +93,15 @@
             </div>
 
             <!-- 결과창 공간 -->
-            <div id="resultArea" class="relative h-[740px] bg-white w-[900px] rounded-md shadow-md border overflow-hidden">실패!</div>
+            <div id="resultArea" class="relative h-[740px] bg-white w-[900px] rounded-md shadow-md border flex flex-col justify-center items-center text-center overflow-hidden">
+              <div class="w-[626px] h-[257px] ">
+                <div class="font-bold text-[80px]">END</div> </br>
+                <div class="font-bold text-[60px] text-[#D47C00]">청소 실패</div>
+                <div class="font-bold text-[30px] text-[#AAAAAA]" style="letter-spacing: -0.05em;">10개 모두 제거하지 못했어요ㅠㅠ 다시 청소해주세요.</div>
+              </div>
+            </div>
             <div class="flex justify-between gap-35 h-[200px] w-[1000px] px-[50px] p-[50px]">
-              <div id="returnMainPageBtn" class="flex font-bold font-SUIT-Bold text-[40px] py-[15px] px-[20px] border-3 cursor-pointer text-center">돌아가기</div>
+              <div class="return-game-btn flex font-bold font-SUIT-Bold text-[40px] py-[15px] px-[20px] border-3 cursor-pointer text-center">돌아가기</div>
             </div>
           </div>
         </div>

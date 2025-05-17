@@ -53,19 +53,53 @@ const btnTrue = document.getElementById("btn-true");
 const btnFalse = document.getElementById("btn-false");
 
 /**
- * 정답 오답 확인
- * 정답여부와 상관없이 문제를 풀면 다음 문제로 넘어감
+ * 유저가 고른 답과 실제 문제의 답이 같으면 true 반환
+ * 유저가 고른 답과 실제 문제의 답이 틀리면 false 반환
  * @param userAnswer
  * @param correctAnswer
  */
-export function checkAnswer(userAnswer: boolean, correctAnswer: boolean): void {
-  btnTrue?.addEventListener("click", () => {
-    const current = quizArr[currentQuestionIndex];
-    checkAnswer(true, current.answer);
-    console.log(current.answer);
-  });
-  btnFalse?.addEventListener("click", () => {
-    const current = quizArr[currentQuestionIndex];
-    checkAnswer(false, current.answer);
-  });
+export function checkAnswer(userAnswer: boolean, correctAnswer: boolean): boolean {
+  if (userAnswer === correctAnswer) {
+    return true;
+  } else {
+    return false;
+  }
 }
+
+btnTrue?.addEventListener("click", () => {
+  const currentQuizInfo = quizArr[currentQuestionIndex];
+
+  // 정답이 맞는지 확인을 한다.
+  const result = checkAnswer(true, currentQuizInfo.answer);
+
+  // 결과를 우측 상단에 표기한다.
+  if (result === true) {
+    const scoreElement = document.getElementById("score-" + currentQuestionIndex);
+
+    if (scoreElement) {
+      scoreElement.innerText = "O";
+    }
+  } else if (result === false) {
+    const scoreElement = document.getElementById("score-" + currentQuestionIndex);
+    if (scoreElement) {
+      scoreElement.innerText = "X";
+    }
+  }
+
+  // 이전에 제출한 문제는 제외 해야한다.
+
+  // 다음 문제를 출력한다.
+  if (quizText) {
+    quizText.innerText = quizArr[3].question;
+  }
+
+  // 출제 되는 문제는 랜덤으로 출제되도록 구현
+});
+
+btnFalse?.addEventListener("click", () => {
+  const currentQuizInfo = quizArr[currentQuestionIndex];
+  checkAnswer(false, currentQuizInfo.answer);
+  if (quizText) {
+    quizText.innerText = quizArr[14].question;
+  }
+});

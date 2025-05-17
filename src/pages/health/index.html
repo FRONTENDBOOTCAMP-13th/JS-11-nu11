@@ -16,49 +16,76 @@
 
       /* 현재 화면 상태만 보이게 */
       [data-health-wrap="intro"] [data-health="intro"],
-      [data-health-wrap="play"] [data-health="play"] {
+      [data-health-wrap="play"] [data-health="play"],
+      [data-health-wrap="success"] [data-health="success"],
+      [data-health-wrap="fail"] [data-health="fail"] {
         display: block;
       }
 
-      /* data-cleaing-wrap = "play" */
-      /* 부모태그 */
+      [alt="character"] {
+        transition: transform 0.3s ease-out;
+      }
     </style>
 
     <div data-health-wrap="intro">
       <!-- intro -->
       <section data-health="intro">
-        <h2 class="text-6xl ml-[50px] my-[30px] font-bold">운동하기 - 스프린트</h2>
+        <h1 class="text-6xl ml-[50px] my-[30px] font-bold">운동하기 - 스프린트</h1>
         <div class="mx-[50px] mb-[50px] border-3 w-[900px] h-[740px] pl-[160px] pr-[210px] pt-[121px] pb-[105px]">
-          <img src="/src/pages/health/Group 18.png" alt="health-intro" />
+          <img src="/src/pages/health/health.png" alt="health-intro" />
         </div>
-        <button type="button" class="backBtn bg-amber-500 border-2 border-red-500">돌아가기</button>
-        <button type="button" id="startBtn" class="bg-blue-700 border-2 border-red-500 uppercase">gamestart</button>
+        <a href="/index.html" class="backBtn bg-amber-500 border-2 border-red-500">돌아가기</a>
+        <button type="button" id="startBtn" class="bg-blue-700 border-2 border-red-500">GAME START</button>
       </section>
 
       <!-- play 클래스로 타입 속성으로 값 조절 -->
       <section data-health="play" class="border-3">
-        <div class="title">스프린트</div>
-        <div class="time">10s</div>
-        <div class="character">캐릭터 이미지</div>
-        <button type="button" id="spcebarBtn" class="bg-purple-400 border-2 border-red-500">spacebar</button>
-        <div class="celebrateEffect">축하 이펙트</div>
+        <!-- 두개 스타일 그룹 -->
+        <div class="flex flex-row justify-between mx-[50px] my-[30px] w-[900px]">
+          <h2 class="text-6xl font-bold">스프린트</h2>
+          <div class="time text-6xl"></div>
+        </div>
+        <!--  -->
+
+        <!-- 묶을 자리 -->
+        <div class="mx-[50px] mb-[50px] border-3 w-[900px] h-[740px] flex flex-col justify-between">
+          <div class="w-[794px] h-[100px] bg-[#D9D9D9] border-3 overflow-hidden relative mx-[53px] mt-[60px]">
+            <div class="h-[100%] w-[0] bg-[#AED400] transition-[width] duration-300 ease-in-out" id="sprintGauge"></div>
+          </div>
+
+          <div class="mt-[210px] ml-[53px] relative">
+            <img id="celebrate" class="hidden absolute right-[80px] top-[-110px]" src="/src/pages/health/celebrate.png" alt="celebrate" />
+            <img id="character" src="/src/pages/health/health.png" width="180" height="163" alt="character" class="" />
+          </div>
+
+          <!-- div로 묶을 자리 -->
+          <div class="w-full h-[170px] bg-[#000000] flex justify-center items-center">
+            <img class="w-[320px] h-[80px]" id="spacebar3d" src="/src/pages/health/spacebar3d.png" alt="spacebar3d" />
+            <img class="w-[300px] h-[58px]" id="spacebar2d" src="/src/pages/health/spacebar2d.png" alt="spacebar2d" />
+          </div>
+          <!-- -->
+        </div>
       </section>
 
       <!-- 성공시 -->
       <section data-health="success">
-        <div class="title">스프린트</div>
-        <div>end</div>
-        <div>성공</div>
-        <div>경험치를 획득합니다.</div>
+        <h2 class="text-6xl ml-[50px] my-[30px] font-bold">스프린트</h2>
+        <div class="mx-[50px] mb-[50px] border-3 w-[900px] h-[740px]">
+          <div>end</div>
+          <div>성공</div>
+          <div>경험치를 획득합니다.</div>
+        </div>
         <button type="button" class="backBtn bg-amber-500 border-2 border-red-500">돌아가기</button>
       </section>
 
       <!-- 실패시 -->
       <section data-health="fail">
-        <div class="title">스프린트</div>
-        <div>end</div>
-        <div>실패시</div>
-        <div>획득할 경험치가 없습니다.</div>
+        <h2 class="text-6xl ml-[50px] my-[30px] font-bold">스프린트</h2>
+        <div class="mx-[50px] mb-[50px] border-3 w-[900px] h-[740px] flex flex-col justify-center text-center">
+          <div class="uppercase text-[80px] font-bold">end</div>
+          <div class="text-6xl mt-[35px] text-[#D47C00]">실패</div>
+          <div class="text-3xl mt-[10px] text-[#AAAAAA]">획득할 경험치가 없습니다.</div>
+        </div>
         <button type="button" class="backBtn bg-amber-500 border-2 border-red-500">돌아가기</button>
       </section>
     </div>

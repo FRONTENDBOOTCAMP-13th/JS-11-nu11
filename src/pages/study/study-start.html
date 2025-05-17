@@ -25,12 +25,28 @@
         <button id="start-btn" class="text-3xl font-bold border-4 px-6 py-2 w-fit m-4 hover:text-blue-500 transition-colors duration-100">START</button>
       </div>
 
-      <!-- OX 퀴즈 게임 화면 -->
+      <!-- 게임 화면 -->
+      <div class="title font-bold">
+        <p class="">OX 퀴즈</p>
+      </div>
+
+      <!-- 스코어 상황판 -->
+      <div class="score-board">
+        <div id="score" class="flex flex-row">
+          <div id="score-0" class="" style="border: 1px solid gray; width: 20px; height: 20px"></div>
+          <div id="score-1" class="" style="border: 1px solid gray; width: 20px; height: 20px"></div>
+          <div id="score-2" class="" style="border: 1px solid gray; width: 20px; height: 20px"></div>
+          <div id="score-3" class="" style="border: 1px solid gray; width: 20px; height: 20px"></div>
+          <div id="score-4" class="" style="border: 1px solid gray; width: 20px; height: 20px"></div>
+        </div>
+      </div>
       <div class="border-2 relative w-full max-w-4xl mx-auto" data-study-page="play">
         <img src="./assets/white-board.png" alt="퀴즈 배경" class="w-full" />
         <div id="quiz-board" class="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-2xl font-bold leading-snug drop-shadow">
           <p id="quiz-text" class="text-center"></p>
         </div>
+
+        <!-- OX 버튼 -->
         <div class="absolute bottom-10 left-10 flex gap-6">
           <button id="btn-true" class="bg-white px-6 py-4 rounded-lg text-blue-500 text-3xl font-bold shadow-md hover:scale-125 transition">O</button>
           <button id="btn-false" class="bg-white px-6 py-4 rounded-lg text-red-500 text-3xl font-bold shadow-md hover:scale-125 transition">X</button>

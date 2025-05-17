@@ -18,7 +18,7 @@
     </style>
   </head>
   <body class="h-screen flex items-center justify-center">
-    <div data-study-wrap="intro">
+    <div data-study-wrap="play">
       <!-- 시작 화면 -->
       <div class="border-2 flex flex-col items-center p-50" data-study-page="intro">
         <button class="text-3xl font-bold border-4 px-6 py-2 w-fit m-4 hover:text-blue-500 transition-colors duration-100">돌아가기</button>
@@ -28,8 +28,8 @@
       <!-- OX 퀴즈 게임 화면 -->
       <div class="border-2 relative w-full max-w-4xl mx-auto" data-study-page="play">
         <img src="./assets/white-board.png" alt="퀴즈 배경" class="w-full" />
-        <div class="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-2xl font-bold leading-snug drop-shadow">
-          <p id="quiz" class="text-center"></p>
+        <div id="quiz-board" class="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-2xl font-bold leading-snug drop-shadow">
+          <p id="quiz-text" class="text-center"></p>
         </div>
         <div class="absolute bottom-10 left-10 flex gap-6">
           <button id="btn-true" class="bg-white px-6 py-4 rounded-lg text-blue-500 text-3xl font-bold shadow-md hover:scale-125 transition">O</button>

@@ -24,82 +24,14 @@ const quizArr: Question[] = [
   /* index[14] */ { question: "TypeScript는 런타임 타입 체크 기능을 제공한다.", answer: false }, // TypeScript는 컴파일 타임에만 타입 검사함
 ];
 
-// START 버튼 요소 가져오기
-const startBtn = document.getElementById("start-btn");
+// 메인화면에서 GAME START 버튼 클릭 시 게임화면으로 넘어감
+document.addEventListener("DOMContentLoaded", () => {
+  const startBtn = document.getElementById("start-btn");
+  const introScreen = document.getElementById("intro-screen");
+  const playScreen = document.getElementById("play-screen");
 
-// 래퍼 요소 가져오기
-const studyWrap = document.querySelector("[data-study-wrap]");
-
-/**
- * START 버튼 눌렀을 때 퀴즈 문제로 이동하는 이벤트
- */
-startBtn?.addEventListener("click", () => {
-  if (studyWrap) {
-    studyWrap.setAttribute("data-study-wrap", "play");
-  }
-});
-
-// 현재 문제의 인덱스 번호
-const currentQuestionIndex: number = 0;
-const showQuiz = quizArr[currentQuestionIndex];
-
-const quizText = document.getElementById("quiz-text");
-if (quizText) {
-  quizText.innerHTML = showQuiz.question.replace(/\n/g, "<br>");
-}
-
-// OX 버튼 가져오기
-const btnTrue = document.getElementById("btn-true");
-const btnFalse = document.getElementById("btn-false");
-
-/**
- * 유저가 고른 답과 실제 문제의 답이 같으면 true 반
- * 유저가 고른 답과 실제 문제의 답이 틀리면 false 반환
- * @param userAnswer
- * @param correctAnswer
- */
-export function checkAnswer(userAnswer: boolean, correctAnswer: boolean): boolean {
-  if (userAnswer === correctAnswer) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-btnTrue?.addEventListener("click", () => {
-  const currentQuizInfo = quizArr[currentQuestionIndex];
-
-  // 정답이 맞는지 확인을 한다.
-  const result = checkAnswer(true, currentQuizInfo.answer);
-
-  // 결과를 우측 상단에 표기한다.
-  if (result === true) {
-    const scoreElement = document.getElementById("score-" + currentQuestionIndex);
-
-    if (scoreElement) {
-      scoreElement.innerText = "O";
-    }
-  } else if (result === false) {
-    const scoreElement = document.getElementById("score-" + currentQuestionIndex);
-    if (scoreElement) {
-      scoreElement.innerText = "X";
-    }
-  }
-
-  // 이전에 제출한 문제는 제외 해야한다.
-
-  // 다음 문제를 출력한다.
-  if (quizText) {
-    quizText.innerText = quizArr[3].question;
-  }
-
-  // 출제 되는 문제는 랜덤으로 출제되도록 구현
-});
-
-btnFalse?.addEventListener("click", () => {
-  const currentQuizInfo = quizArr[currentQuestionIndex];
-  checkAnswer(false, currentQuizInfo.answer);
-  if (quizText) {
-    quizText.innerText = quizArr[14].question;
-  }
+  startBtn?.addEventListener("click", () => {
+    introScreen.classList.add("hidden");
+    playScreen.classList.remove("hidden");
+  });
 });

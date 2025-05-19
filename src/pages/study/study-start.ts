@@ -32,23 +32,22 @@ document.addEventListener("DOMContentLoaded", () => {
   showCurrentQuestion();
 
   startBtn?.addEventListener("click", () => {
-    introScreen.classList.add("hidden");
-    playScreen.classList.remove("hidden");
+    introScreen.classList.add("hidden"); // classList: 테윌윈드CSS로 예시를 들자면 class="hidden"을 추가하는 코드
+    playScreen.classList.remove("hidden"); // classList: 테윌윈드CSS로 예시를 들자면 class="hidden"을 추가하는 코드
   });
 });
 
 // quizArr 랜덤으로 섞기 + 랜덤하게 섞인 5개 문제 추출
 // const showQuiz: Question[] = quizArr.sort(() => 0.5 - Math.random()); // 이 코드는 실제 원본인 quizArr의 인덱스를 바꾸게 되어 현재 문제 객체의 인덱스가 달라질 수 있음
-const showQuiz: Question[] = [...quizArr].sort(() => Math.random() - 0.5).slice(0, 5); // 이렇게 변경하면 원본은 유지한채로 새로운 배열[...quizArr]을 만들어 랜덤하게 섞고 5문제를 추출함
+const showQuiz: Question[] = [...quizArr].sort(() => Math.random() - 0.5).slice(0, 5); // 이렇게 변경하면 원본은 유지한채로 새로운 배열[...quizArr]을 만들어 랜덤하게 섞고 5문제를 추출함 -> 얕은 복사
+let quizIndex: number = 0; // 현재 퀴즈 인덱스를 추적할 변수(0부터 시작)
 
-// 현재 퀴즈 인덱스를 추적할 변수(0부터 시작)
-let quizIndex: number = 0;
+let exPoint: number = 0; // 맞힌 문제 수(경험치)
 
-// 맞힌 문제 수(점수)
-let score: number = 0;
-
-// 문제 텍스트가 표시될 HTML 요소
-const questionEl = document.getElementById("quiz-question");
+// DOM 요소 가져오기
+const questionEl = document.getElementById("quiz-question"); // 문제 텍스트가 표시될 HTML 요소
+const answerObtn = document.getElementById("o-btn"); // OX 버튼요소 가져오기
+const answerXbtn = document.getElementById("x-btn"); // OX 버튼요소 가져오기
 
 /**
  * 문제를 랜덤하게 화면에 표시하는 함수
@@ -63,6 +62,20 @@ function showCurrentQuestion() {
   }
 }
 
-// OX 버튼요소 가져오기
-const answerObtn = document.getElementById("o-btn");
-const answerXbtn = document.getElementById("x-btn");
+/**
+ * 정답/오답 처리 함수
+ * 문제에 따라 O가 정답일수도 있고 X가 정답일수 있으므로 해당 문제에 대한 정답일때, 오답일때 처리해줘야함
+ */
+function handleAnswer(userAnswer: boolean): void {
+  const currentQuiz = showQuiz[quizIndex];
+  const isCorrect = userAnswer === currentQuiz.answer;
+
+  if (isCorrect) {
+    exPoint++;
+  }
+  quizIndex++;
+  showCurrentQuestion();
+}
+
+answerObtn?.addEventListener("click", () => handleAnswer(true));
+answerXbtn?.addEventListener("click", () => handleAnswer(false));

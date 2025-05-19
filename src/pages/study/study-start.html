@@ -5,51 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>공부하기</title>
     <script type="module" src="./study-start.ts"></script>
-    <style>
-      [data-study-wrap] [data-study-page] {
-        display: none;
-      }
-      [data-study-wrap="intro"] [data-study-page="intro"] {
-        display: block;
-      }
-      [data-study-wrap="play"] [data-study-page="play"] {
-        display: block;
-      }
-    </style>
   </head>
-  <body class="h-screen flex items-center justify-center">
-    <div data-study-wrap="play">
-      <!-- 시작 화면 -->
-      <div class="border-2 flex flex-col items-center p-50" data-study-page="intro">
-        <button class="text-3xl font-bold border-4 px-6 py-2 w-fit m-4 hover:text-blue-500 transition-colors duration-100">돌아가기</button>
-        <button id="start-btn" class="text-3xl font-bold border-4 px-6 py-2 w-fit m-4 hover:text-blue-500 transition-colors duration-100">START</button>
+  <body>
+    <div class="h-screen flex items-center justify-center" data-study-wrap="intro">
+      <!-- 메인 화면 -->
+      <div id="intro-screen" class="flex flex-col" data-study-page="intro">
+        <div class="quiz-main font-bold">
+          <h1 class="text-4xl text-left">공부하기 - OX 퀴즈</h1>
+        </div>
+
+        <div class="border-2 flex-col items-center my-6">
+          <img src="/src/assets/images/study_intro.svg" alt="OX퀴즈 메인 이미지" />
+        </div>
+
+        <div class="flex gap-4 w-full justify-between px-0">
+          <button class="text-3xl font-bold border-4 rounded-lg px-6 py-2 hover:text-blue-500 transition-colors duration-100">돌아가기</button>
+          <button id="start-btn" class="text-3xl font-bold border-4 rounded-lg px-6 py-2 hover:text-blue-500 transition-colors duration-100">GAME START</button>
+        </div>
       </div>
 
       <!-- 게임 화면 -->
-      <div class="title font-bold">
-        <p class="">OX 퀴즈</p>
-      </div>
-
-      <!-- 스코어 상황판 -->
-      <div class="score-board">
-        <div id="score" class="flex flex-row">
-          <div id="score-0" class="" style="border: 1px solid gray; width: 20px; height: 20px"></div>
-          <div id="score-1" class="" style="border: 1px solid gray; width: 20px; height: 20px"></div>
-          <div id="score-2" class="" style="border: 1px solid gray; width: 20px; height: 20px"></div>
-          <div id="score-3" class="" style="border: 1px solid gray; width: 20px; height: 20px"></div>
-          <div id="score-4" class="" style="border: 1px solid gray; width: 20px; height: 20px"></div>
+      <div id="play-screen" class="hidden flex-col items-center w-full" data-study-page="play">
+        <div id="score-board" class="flex justify-between">
+          <p>OX 퀴즈</p>
+          <div id="score" class="flex">
+            <div style="border: 1px solid gray; width: 20px; height: 20px"></div>
+            <div style="border: 1px solid gray; width: 20px; height: 20px"></div>
+            <div style="border: 1px solid gray; width: 20px; height: 20px"></div>
+            <div style="border: 1px solid gray; width: 20px; height: 20px"></div>
+            <div style="border: 1px solid gray; width: 20px; height: 20px"></div>
+          </div>
         </div>
-      </div>
-      <div class="border-2 relative w-full max-w-4xl mx-auto" data-study-page="play">
-        <img src="./assets/white-board.png" alt="퀴즈 배경" class="w-full" />
-        <div id="quiz-board" class="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-2xl font-bold leading-snug drop-shadow">
-          <p id="quiz-text" class="text-center"></p>
+
+        <!-- 스코어 상황판 -->
+        <div id="quiz-game" class="border-2 w-[900px] relative max-w-4xl mx-auto">
+          <img src="/src/assets/images/white-board.png" alt="퀴즈 배경" class="w-full" />
+          <div id="quiz-board" class="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-2xl font-bold leading-snug drop-shadow">
+            <p id="quiz-text" class="text-center"></p>
+          </div>
         </div>
 
         <!-- OX 버튼 -->
-        <div class="absolute bottom-10 left-10 flex gap-6">
-          <button id="btn-true" class="bg-white px-6 py-4 rounded-lg text-blue-500 text-3xl font-bold shadow-md hover:scale-125 transition">O</button>
-          <button id="btn-false" class="bg-white px-6 py-4 rounded-lg text-red-500 text-3xl font-bold shadow-md hover:scale-125 transition">X</button>
+        <div id="ox-btn" class="flex items-center gap-6 h-[246px]">
+          <button id="btn-true" class="bg-white px-10 py-4 rounded-lg border-2 text-blue-500 text-3xl font-bold shadow-md hover:scale-125 transition">O</button>
+          <button id="btn-false" class="bg-white px-10 py-4 rounded-lg border-2 text-red-500 text-3xl font-bold shadow-md hover:scale-125 transition">X</button>
         </div>
       </div>
     </div>

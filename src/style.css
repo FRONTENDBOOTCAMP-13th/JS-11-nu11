@@ -1,5 +1,122 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-body {
-	font-family: 'SUIT', sans-serif;
+@theme {
+  /* font family */
+  --font-sans: "SUIT", sans-serif;
+
+  /* font size */
+  --text-30: 1.875rem;
+  --text-40: 2.5rem;
+  --text-60: 3.75rem;
+  --text-80: 5rem;
+
+  /* color */
+  --color-hot-brand: #ed0804;
+  --color-mdev-white: #fff;
+  --color-mdev-black: #000;
+  --color-mdev-gray-e: #eee;
+  --color-mdev-gray-d: #ddd;
+  --color-mdev-gray-a: #aaa;
+  --color-mdev-blue: #0059ff;
+  --color-mdev-red: #ff0000;
+  --color-mdev-green: #aed400;
+  --color-mdev-orange: #d47c00;
+  --color-mdev-success: #aed400;
+  --color-mdev-fail: #d47c00;
+
+  /* animation */
+  @keyframes svg_blink {
+    0% {
+      fill: #fff5da;
+    }
+    50% {
+      fill: #f3bc1e;
+    }
+    100% {
+      fill: #fff5da;
+    }
+  }
+  --animate-blink: svg_blink 1s linear infinite;
+}
+
+@layer components {
+  /* main - intro/play/ending/dying */
+  [data-page-wrap] [data-page] {
+    display: none;
+  }
+  [data-page-wrap="intro"] [data-page="intro"],
+  [data-page-wrap="play"] [data-page="play"],
+  [data-page-wrap="sleep"] [data-page="sleep"],
+  [data-page-wrap="dying"] [data-page="dying"],
+  [data-page-wrap="ending"] [data-page="ending"] {
+    display: block;
+  }
+
+  /* play - hasu/joongsu/gosu */
+  [data-play-wrap] [data-play] {
+    display: none;
+  }
+  [data-play-wrap="hasu"] [data-play="hasu"],
+  [data-play-wrap="joongsu"] [data-play="joongsu"],
+  [data-play-wrap="gosu"] [data-play="gosu"] {
+    display: block;
+  }
+
+  /* sleep - hasu/joongsu/gosu */
+  [data-sleep-wrap] [data-sleep] {
+    display: none;
+  }
+  [data-sleep-wrap="hasu"] [data-sleep="hasu"],
+  [data-sleep-wrap="joongsu"] [data-sleep="joongsu"],
+  [data-sleep-wrap="gosu"] [data-sleep="gosu"] {
+    display: block;
+  }
+
+  /* layout */
+  .mdev_layout {
+    .mdev_layout_top {
+      @apply flex justify-between items-center px-[4vw] py-[4vw] min-h-[14vw] content-center;
+      &.mdev_right {
+        @apply justify-end;
+      }
+      .mdev_layout_title {
+        @apply text-[5vw] font-bold leading-none;
+      }
+    }
+    .mdev_layout_center {
+      @apply mx-[4vw] border-[0.5vw] text-center;
+    }
+    .mdev_layout_bottom {
+      @apply flex justify-between gap-[1vw] p-[4vw] text-[0px];
+      &.mdev_right {
+        @apply justify-end;
+      }
+    }
+  }
+
+  /* button */
+  [data-btn] {
+    cursor: pointer;
+    display: inline-block;
+    min-width: 17vw;
+    padding: 2.5vw 1vw;
+    border: 0.5vw solid var(--color-mdev-black);
+    border-radius: 1vw;
+    background-color: var(--color-mdev-white);
+    color: var(--color-mdev-black);
+    font-size: 4vw;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+  }
+
+  /* button - hover */
+  [data-btn]:hover {
+    background-color: var(--color-mdev-black);
+    color: var(--color-mdev-white);
+  }
+
+  .mdev_border {
+    border: 0.5vw solid var(--color-mdev-black);
+  }
 }

@@ -27,17 +27,17 @@
       <!-- 게임 화면 -->
       <div id="play-screen" class="hidden flex-col items-center w-full" data-study-page="play">
         <div id="score-board" class="flex justify-between">
-          <p>OX 퀴즈</p>
+          <p class="font-semibold">OX 퀴즈</p>
+          <!-- 진행바: 정적으로 5개의 박스를 생성하여 타입스크립트를 통해 OX 값 업데이트-->
           <div id="score" class="flex">
-            <div style="border: 1px solid gray; width: 20px; height: 20px"></div>
-            <div style="border: 1px solid gray; width: 20px; height: 20px"></div>
-            <div style="border: 1px solid gray; width: 20px; height: 20px"></div>
-            <div style="border: 1px solid gray; width: 20px; height: 20px"></div>
-            <div style="border: 1px solid gray; width: 20px; height: 20px"></div>
+            <div class="w-10 h-10 border border-gray-400 rounded-full flex items-center justify-center"></div>
+            <div class="w-10 h-10 border border-gray-400 rounded-full felx items-center justify-center"></div>
+            <div class="w-10 h-10 border border-gray-400 rounded-full flex items-center justify-center"></div>
+            <div class="w-10 h-10 border border-gray-400 rounded-full flex items-center justify-center"></div>
+            <div class="w-10 h-10 border border-gray-400 rounded-full flex items-center justify-center"></div>
           </div>
         </div>
 
-        <!-- 스코어 상황판 -->
         <div id="quiz-game" class="border-2 w-[900px] relative max-w-4xl mx-auto">
           <img src="/src/assets/images/white-board.png" alt="퀴즈 배경" class="w-full" />
           <div id="quiz-board" class="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-2xl font-bold leading-snug drop-shadow">

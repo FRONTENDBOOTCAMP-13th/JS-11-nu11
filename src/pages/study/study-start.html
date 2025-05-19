@@ -11,7 +11,7 @@
       <!-- 메인 화면 -->
       <div id="intro-screen" class="flex flex-col" data-study-page="intro">
         <div class="quiz-main font-bold">
-          <h1 class="text-4xl text-left">공부하기 - OX 퀴즈</h1>
+          <h1 class="text-3xl text-left">공부하기 - OX 퀴즈</h1>
         </div>
 
         <div class="border-2 flex-col items-center my-6">
@@ -41,14 +41,14 @@
         <div id="quiz-game" class="border-2 w-[900px] relative max-w-4xl mx-auto">
           <img src="/src/assets/images/white-board.png" alt="퀴즈 배경" class="w-full" />
           <div id="quiz-board" class="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-2xl font-bold leading-snug drop-shadow">
-            <p id="quiz-text" class="text-center"></p>
+            <p id="quiz-question" class="text-center"></p>
           </div>
         </div>
 
         <!-- OX 버튼 -->
         <div id="ox-btn" class="flex items-center gap-6 h-[246px]">
-          <button id="btn-true" class="bg-white px-10 py-4 rounded-lg border-2 text-blue-500 text-3xl font-bold shadow-md hover:scale-125 transition">O</button>
-          <button id="btn-false" class="bg-white px-10 py-4 rounded-lg border-2 text-red-500 text-3xl font-bold shadow-md hover:scale-125 transition">X</button>
+          <button id="o-btn" class="bg-white px-10 py-4 rounded-lg border-2 text-blue-500 text-3xl font-bold shadow-md hover:scale-125 transition">O</button>
+          <button id="x-btn" class="bg-white px-10 py-4 rounded-lg border-2 text-red-500 text-3xl font-bold shadow-md hover:scale-125 transition">X</button>
         </div>
       </div>
     </div>

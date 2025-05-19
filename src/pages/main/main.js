@@ -11,17 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
   //100이상: ending
   let exPoint = 0;
 
-  //----------------------------- [init] -----------------------------
-  //초기화 함수
-  function initFnc() {
-    hpPoint = 100;
-
-    localStorage.setItem("page", pageWrap.dataset.pageWrap);
-    localStorage.setItem("hpPoint", 100);
-    localStorage.setItem("exPoint", 0);
-  }
-  initFnc();
-
   //----------------------------- [hpPoint - 체력] -----------------------------
   const hpBar = document.querySelectorAll(".hp_bar span");
   const hpBarTime = 100; //체력감소 시간 설정 (d:1000)
@@ -110,6 +99,17 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   //페이지 변경 감지
   pageWrapObserver.observe(pageWrap, { attributes: true });
+
+  //----------------------------- [init] -----------------------------
+  //초기화 함수
+  function initFnc() {
+    hpPoint = 100;
+
+    localStorage.setItem("page", pageWrap.dataset.pageWrap);
+    localStorage.setItem("hpPoint", 100);
+    localStorage.setItem("exPoint", 0);
+  }
+  initFnc();
 
   //----------------------------- [buttons] -----------------------------
   const playButtons = document.querySelectorAll("[data-page-wrap] [data-btn]");

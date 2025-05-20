@@ -3,6 +3,14 @@ import "/src/style.css";
 const maxGaugeValue = 63; // 게임 난이도 조절 값
 let gaugeValue = 0; // 게이지 값
 let isGameActive = false; // 초기 게임 상태 값
+const healthExp = 2; // 경험치 값
+
+// 경험치 추가 함수
+function addHealthExp() {
+  const currentExp: number = parseInt(localStorage.getItem("exPoint") || "0") || 0;
+  const newExp: number = currentExp + healthExp;
+  localStorage.setItem("exPoint", newExp.toString());
+}
 
 // 카운트다운 함수
 function countdown() {
@@ -69,6 +77,7 @@ function gameResult() {
   if (healthWrapper instanceof HTMLElement) {
     if (achievementPercentage >= 100) {
       healthWrapper.setAttribute("data-health-wrap", "success");
+      addHealthExp();
     } else {
       // 달성하지 못했을 때 실패 페이지로 이동
       healthWrapper.setAttribute("data-health-wrap", "fail");

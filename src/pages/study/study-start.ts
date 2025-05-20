@@ -61,8 +61,10 @@ const showQuiz: Question[] = [...quizArr].sort(() => Math.random() - 0.5).slice(
 // 현재 퀴즈 인덱스를 추적할 변수(0부터 시작)
 let quizIndex: number = 0;
 
-// 맞힌 문제 수(경험치)
+// 경험치
 let exPoint: number = 0;
+
+let score: number = 0;
 
 // 각 문제의 정답 여부 상태를 저장하는 배열 (초기에는 전부 null)
 // 맞추면 true, 틀리면 false로 바뀜
@@ -132,9 +134,9 @@ function handleAnswer(userAnswer: boolean): void {
   // 진행 상태 배열에 정답 여부 저장 (true or false)
   progressState[quizIndex] = isCorrect;
 
-  // 정답일 경우 경험치 증가
+  // 정답일 경우 점수 증가
   if (isCorrect) {
-    exPoint++;
+    score++;
   }
 
   // 다음 문제로 넘어가기 위해 quizIndex 증가
@@ -143,16 +145,19 @@ function handleAnswer(userAnswer: boolean): void {
   // 진행바 갱신
   renderProgressBar();
 
-  // 퀴즈가 끝났을때 화면 처리(모두 정답인 경우)
   if (quizIndex === showQuiz.length) {
-    const quizGame = document.getElementById("quiz-game");
-    const oxBtns = document.getElementById("ox-btn");
-    const resultScreen = document.getElementById("result-screen");
-    const failScreen = document.getElementById("fail-screen");
-    // 사용자가 모든 문제를 정답으로 맞췄는지 확인
+    // 5문제를 다 풀었다면 결과 화면을 보여주기 위한 요소를 가져옴
+    const quizGame = document.getElementById("quiz-game"); // 퀴즈 문제 화면 요소
+    const oxBtns = document.getElementById("ox-btn"); // OX 버튼을 감싸는 요소
+    const resultScreen = document.getElementById("result-screen"); // 모든 문제 정답 화면
+    const failScreen = document.getElementById("fail-screen"); // 모든 문제 오답 화면
+    const partialScreen = document.getElementById("partial-screen"); // 일부(1~4개) 화면
+    const partialResultText = document.getElementById("partial-result-text"); // n개 맞힌 텍스트
+
+    // 사용자가 모든 문제를 정답으로 맞췄는지 확인(모든 요소가 true인지 검사)
     const allCorrect = progressState.every(state => state === true);
 
-    // 사용자가 모든 문제를 틀렸는지 확인
+    // 사용자가 모든 문제를 틀렸는지 확인(모든 요소가 false인지 검사)
     const allWrong = progressState.every(state => state === false);
 
     // 퀴즈 영역과 OX 버튼을 숨김(display: none)
@@ -175,6 +180,15 @@ function handleAnswer(userAnswer: boolean): void {
       failScreen.classList.remove("hidden"); // hidden 제거(틀린 화면 보이게 함)
       failScreen.classList.add("flex"); // display: flex 적용
     }
+    // 일부만 맞은 경우
+    else if (partialScreen && partialResultText) {
+      // 정답 갯수(score)를 텍스트로 표시(ex. "총 3문제 정답입니다.")
+      partialResultText.textContent = `총 ${score}문제 정답입니다.`;
+
+      partialScreen.classList.remove("hidden");
+      partialScreen.classList.add("flex");
+    }
+
     // 결과 화면 보여주고 함수 종료
     return;
   }

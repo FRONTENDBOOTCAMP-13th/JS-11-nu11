@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 정답 결과 화면에서 돌아가기 버튼
   const goBackBtn = document.getElementById("go-back-btn");
   goBackBtn?.addEventListener("click", () => {
-    window.location.href = "/src/index.html";
+    window.location.href = "/src/main/index.html";
   });
 
   // GAME START 버튼을 눌러 게임이 시작되면 바로 첫 문제가 보이도록 문제출력함수 호출

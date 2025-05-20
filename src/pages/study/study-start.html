@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="h-screen flex items-center justify-center" data-study-wrap="intro">
-      <!-- 메인 화면 -->
+      <!-- intro -->
       <div id="intro-screen" class="flex flex-col" data-study-page="intro">
         <div class="quiz-main font-bold">
           <h1 class="text-3xl text-left">공부하기 - OX 퀴즈</h1>
@@ -19,12 +19,12 @@
         </div>
 
         <div class="flex gap-4 w-full justify-between px-0">
-          <button class="text-3xl font-bold border-4 rounded-lg px-6 py-2 hover:text-blue-500 transition-colors duration-100">돌아가기</button>
+          <button id="return-btn" class="text-3xl font-bold border-4 rounded-lg px-6 py-2 hover:text-blue-500 transition-colors duration-100">돌아가기</button>
           <button id="start-btn" class="text-3xl font-bold border-4 rounded-lg px-6 py-2 hover:text-blue-500 transition-colors duration-100">GAME START</button>
         </div>
       </div>
 
-      <!-- 게임 화면 -->
+      <!-- play -->
       <div id="play-screen" class="hidden flex-col items-center w-full" data-study-page="play">
         <div id="score-board" class="flex justify-between">
           <p class="font-semibold">OX 퀴즈</p>

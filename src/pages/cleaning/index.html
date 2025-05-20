@@ -6,125 +6,91 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>메인</title>
-  <link rel="stylesheet" href="style.css" />
-  <script type="module" src="./cleaning.ts"></script>
+  <link rel="stylesheet" href="../../style.css" />
+  <script type="module" src="/src/pages/cleaning/cleaning.ts"></script>
   <style>
-    [data-cleaning-wrap] [data-cleaning-page] {
+    /* 모든 section 숨김 */
+    [data-page] {
       display: none;
     }
 
-    [data-cleaning-wrap="intro"] [data-cleaning-page="intro"] {
-      display: block;
-    }
-
-    [data-cleaning-wrap="play"] [data-cleaning-page="play"] {
-      display: block;
-    }
-
-    [data-cleaning-wrap="success"] [data-cleaning-page="success"] {
-      display: block;
-    }
-
-    [data-cleaning-wrap="fail"] [data-cleaning-page="fail"] {
+    /* 현재 보여줄 section은 body에 data-page-wrap 값 기준으로 */
+    body[data-page-wrap="main"] [data-page="main"],
+    body[data-page-wrap="game"] [data-page="game"],
+    body[data-page-wrap="success"] [data-page="success"],
+    body[data-page-wrap="fail"] [data-page="fail"] {
       display: block;
     }
   </style>
 </head>
 
-<body>
-  <!-- 중앙 정렬의 기준이 되는 div -->
-  <div class="w-screen h-screen flex items-center justify-center overflow-hidden">
-    <div data-cleaning-wrap="intro">
-      <!-- ✅ Intro Page -->
-      <div id="introPage" class="w-[1000px] h-[1076px] flex flex-col border" data-cleaning-page="intro">
-        <!-- ✅ 텍스트 + 이미지 묶음 -->
-        <div class="flex flex-col">
-          <!-- 🟡 여기서 텍스트 위치 조정 가능 (margin 사용) -->
-          <div class="text-[60px] h-[133px] w-[1000px] px-[50px] py-[30px] font-bold font-SUIT-Bold">청소하기</div>
-          <!-- 🟡 이미지 위치나 크기 조정 가능 -->
-          <img src="../cleaning/img/character.svg" alt="청소하는 사람" class="h-[740px] w-[900px] mx-[50px]" />
+<body data-page-wrap="main">
+  <section data-page="main" class="mdev_layout">
+    <div class="mdev_layout_top">
+      <h1 class="mdev_layout_title">청소하기</h1>
+    </div>
 
-          <!-- ✅ 버튼 영역 -->
-          <!-- 🟡 버튼 위치나 정렬 조정 가능 (justify-between, gap 등) -->
-          <div class="flex justify-between gap-35 h-[200px] w-[1000px] px-[50px] p-[50px]">
-            <div id="returnMainBtn"
-              class="flex font-bold font-SUIT-Bold text-[40px] py-[15px] px-[20px] border-3 cursor-pointer text-center">
-              돌아가기</div>
-            <div id="startGameBtn"
-              class="flex my-[5px] font-bold font-SUIT-Bold text-[40px] py-[10px] px-[20px] border-3 cursor-pointer text-center">
-              GAME START</div>
-          </div>
-        </div>
-      </div>
+    <div class="mdev_layout_center relative">
+      <img src="/src/assets/images/cleaning_intro.svg" width="100%" alt="청소하는 사람" />
+    </div>
 
-      <!-- Game Page -->
-      <div id="goGame" class="flex items-center justify-center" data-cleaning-page="play">
-        <!-- 상단 헤더: 좌우 끝 배치 -->
-        <div class="w-[1000px] h-[1076px] flex flex-col border items-center justify-center">
-          <div class="flex justify-between items-center w-full">
-            <div class="text-[60px] h-[133px] w-[1000px] px-[50px] py-[30px] font-bold font-SUIT-Bold">청소하기</div>
-            <div id="score" class="text-[60px] px-[50px] py-[30px] font-bold font-SUIT-Bold">0/10</div>
-          </div>
-
-          <!-- 게임 플레이 공간 -->
-          <div id="gameArea" class="relative h-[740px] bg-white w-[900px] rounded-md shadow-md border overflow-hidden">
-          </div>
-          <div class="h-[200px]"></div>
-        </div>
-      </div>
-
-      <!-- 성공 Page -->
-      <div id="goSuccess" class="flex items-center justify-center" data-cleaning-page="success">
-        <!-- 상단 헤더: 좌우 끝 배치 -->
-        <div class="w-[1000px] h-[1076px] flex flex-col border items-center justify-center">
-          <div class="flex justify-between items-center w-full">
-            <div class="text-[60px] h-[133px] w-[1000px] px-[50px] py-[30px] font-bold font-SUIT-Bold">청소하기</div>
-          </div>
-
-          <!-- 결과창 공간 -->
-          <div id="resultArea"
-            class="relative h-[740px] bg-white w-[900px] rounded-md shadow-md border flex flex-col justify-center items-center text-center overflow-hidden">
-            <div class="w-[626px] h-[257px] ">
-              <div class="font-bold text-[80px]">END</div> </br>
-              <div class="font-bold text-[60px] text-[#AED400]">청소 완료</div>
-              <div class="font-bold text-[30px] text-[#AAAAAA]" style="letter-spacing: -0.05em;">방이 깨끗해졌어요.</div>
-            </div>
-          </div>
-          <div class="flex justify-between gap-35 h-[200px] w-[1000px] px-[50px] p-[50px]">
-            <div
-              class="return-game-btn flex font-bold font-SUIT-Bold text-[40px] py-[15px] px-[20px] border-3 cursor-pointer text-center">
-              돌아가기</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 실패패 Page -->
-      <div id="goFail" class="flex items-center justify-center" data-cleaning-page="fail">
-        <!-- 상단 헤더: 좌우 끝 배치 -->
-        <div class="w-[1000px] h-[1076px] flex flex-col border items-center justify-center">
-          <div class="flex justify-between items-center w-full">
-            <div class="text-[60px] h-[133px] w-[1000px] px-[50px] py-[30px] font-bold font-SUIT-Bold">청소하기</div>
-          </div>
-
-          <!-- 결과창 공간 -->
-          <div id="resultArea"
-            class="relative h-[740px] bg-white w-[900px] rounded-md shadow-md border flex flex-col justify-center items-center text-center overflow-hidden">
-            <div class="w-[626px] h-[257px] ">
-              <div class="font-bold text-[80px]">END</div> </br>
-              <div class="font-bold text-[60px] text-[#D47C00]">청소 실패</div>
-              <div class="font-bold text-[30px] text-[#AAAAAA]" style="letter-spacing: -0.05em;">10개 모두 제거하지 못했어요ㅠㅠ 다시
-                청소해주세요.</div>
-            </div>
-          </div>
-          <div class="flex justify-between gap-35 h-[200px] w-[1000px] px-[50px] p-[50px]">
-            <div
-              class="return-game-btn flex font-bold font-SUIT-Bold text-[40px] py-[15px] px-[20px] border-3 cursor-pointer text-center">
-              돌아가기</div>
-          </div>
-        </div>
+    <div class="mdev_layout_bottom">
+      <button data-btn="mainReturnBtn">돌아가기</button>
+      <button data-btn="mainGameStartBtn">GAME START</button>
+    </div>
+  </section>
+  <section data-page="game" class="mdev_layout">
+    <div class="mdev_layout_top">
+      <h1 class="mdev_layout_title">청소하기</h1>
+      <div class="text-[0px]">
+        <span id="score" class="inline-block mr-[1vw] align-middle text-[4vw] font-bold"
+          style="font-family: var(--font-sans)">0/10</span>
       </div>
     </div>
-  </div>
+
+    <div class="mdev_layout_center relative">
+      <div id="gameArea"
+        class="relative h-[740px] rounded-md shadow-md mdev_border overflow-hidden bg-[var(--color-mdev-white)]"></div>
+    </div>
+
+    <div class="mdev_layout_bottom"></div>
+  </section>
+  <section data-page="success" class="mdev_layout">
+    <div class="mdev_layout_top">
+      <h1 class="mdev_layout_title">청소하기</h1>
+    </div>
+
+    <div class="mdev_layout_center relative">
+      <div class="font-bold text-80">END</div>
+      <div class="font-bold text-mdev-success text-60">청소 완료</div>
+      <div class="font-bold text-mdev-gray-a text-40" style="letter-spacing: -0.05em">방이
+        깨끗해졌어요.
+      </div>
+    </div>
+
+    <div class="mdev_layout_bottom">
+      <button data-btn="mainReturnBtn" class="return-btn" data-href="/src/pages/main/index.html">돌아가기</button>
+    </div>
+  </section>
+
+  <section data-page="fail" class="mdev_layout">
+    <div class="mdev_layout_top">
+      <h1 class="mdev_layout_title">청소하기</h1>
+    </div>
+
+    <div class="mdev_layout_center relative">
+      <div class="font-bold" style="font-size: var(--text-80);">END</div>
+      <div class="font-bold text-mdev-fail" style="font-size: var(--text-60);">청소 실패</div>
+      <div class="font-bold text-mdev-gray-a" style="font-size: var(--text-30); letter-spacing: -0.05em">10개 모두
+        제거하지
+        못했어요ㅠㅠ
+        다시 청소해주세요.</div>
+    </div>
+
+    <div class="mdev_layout_bottom">
+      <button data-btn="mainReturnBtn" class="return-btn" data-href="/src/pages/cleaning/index.html">돌아가기</button>
+    </div>
+  </section>
 </body>
 
 </html>

@@ -27,6 +27,7 @@ const quizArr: Question[] = [
 // 메인화면의 요소들을 가져옴
 document.addEventListener("DOMContentLoaded", () => {
   const startBtn = document.getElementById("start-btn");
+  const returnBtn = document.getElementById("return-btn");
   const introScreen = document.getElementById("intro-screen");
   const playScreen = document.getElementById("play-screen");
 
@@ -36,6 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
     playScreen.classList.remove("hidden"); // classList: 테윌윈드CSS로 예시를 들자면 class="hidden"을 제거하는 코드, 플레이 화면을 출력
   });
   showCurrentQuestion(); // GAME START 버튼을 눌러 게임이 시작되면 바로 첫 문제가 보이도록 문제출력함수 호출
+  returnBtn?.addEventListener("click", () => {
+    window.location.href = "../main/index.html";
+  });
 });
 
 // 문제 배열(quizArr)에서 랜덤하게 5문제를 추출하여 새 배열 생성

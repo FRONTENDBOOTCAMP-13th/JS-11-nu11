@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 정답 결과 화면에서 돌아가기 버튼
   const goBackBtn = document.getElementById("go-back-btn");
   goBackBtn?.addEventListener("click", () => {
-    window.location.href = "../main/index.html";
+    window.location.href = "/src/index.html";
   });
 
   // GAME START 버튼을 눌러 게임이 시작되면 바로 첫 문제가 보이도록 문제출력함수 호출
@@ -61,10 +61,8 @@ const showQuiz: Question[] = [...quizArr].sort(() => Math.random() - 0.5).slice(
 // 현재 퀴즈 인덱스를 추적할 변수(0부터 시작)
 let quizIndex: number = 0;
 
-// 경험치
+// 정답을 맞힌 수(경험치로도 사용)
 let exPoint: number = 0;
-
-let score: number = 0;
 
 // 각 문제의 정답 여부 상태를 저장하는 배열 (초기에는 전부 null)
 // 맞추면 true, 틀리면 false로 바뀜
@@ -85,9 +83,9 @@ function showCurrentQuestion() {
   const currentQuiz = showQuiz[quizIndex];
 
   // 문제를 보여줄 DOM 요소가 존재할 경우
+  // 문제 번호와 문제 내용을 텍스트로 설정
+  // ex) [문제1] typeof null의 결과는 'null'이다.
   if (questionEl) {
-    // 문제 번호와 문제 내용을 텍스트로 설정
-    // ex) [문제1] typeof null의 결과는 'null'이다.
     questionEl.textContent = `[문제 ${quizIndex + 1}] ${currentQuiz.question}`; // quizIndex는 0부터 시작하므로 1번 무제를 표시해주기 위해 +1을 했고, showQuiz 배열의 객체 중 question의 값을 같이 출력
   }
 }
@@ -103,8 +101,7 @@ function renderProgressBar(): void {
   progressState.forEach((status, i) => {
     const box = boxs[i] as HTMLElement;
     if (!box) return;
-    // 기존 텍스트 초기화
-    box.textContent = "";
+    box.textContent = ""; // 기존 텍스트 초기화
     box.className = "w-10 h-10 border border-gray-400 rounded-full flex items-center justify-center text-xl font-bold";
 
     // 정답이면 파란색 O, 틀리면 빨간색 X, 아직 안 푼 문제는 회색으로 스타일링
@@ -123,20 +120,16 @@ function renderProgressBar(): void {
 /**
  * 정답/오답 처리 함수
  * 문제에 따라 O가 정답일수도 있고 X가 정답일수 있으므로 해당 문제에 대한 정답일때, 오답일때 처리해줘야함
+ * @param userAnswer 유저의 선택(true or false)
  */
 function handleAnswer(userAnswer: boolean): void {
-  // 현재 문제 가져오기
-  const currentQuiz = showQuiz[quizIndex];
+  const currentQuiz = showQuiz[quizIndex]; // 현재 문제 가져오기
+  const isCorrect = userAnswer === currentQuiz.answer; // 유저의 선택이 실제 정답과 같은지 비교
+  progressState[quizIndex] = isCorrect; // 진행 상태 배열에 정답 여부 저장 (true or false)
 
-  // 유저의 선택이 실제 정답과 같은지 비교
-  const isCorrect = userAnswer === currentQuiz.answer;
-
-  // 진행 상태 배열에 정답 여부 저장 (true or false)
-  progressState[quizIndex] = isCorrect;
-
-  // 정답일 경우 점수 증가
+  // 정답일 경우 경험치 1 증가
   if (isCorrect) {
-    score++;
+    exPoint++;
   }
 
   // 다음 문제로 넘어가기 위해 quizIndex 증가
@@ -146,6 +139,8 @@ function handleAnswer(userAnswer: boolean): void {
   renderProgressBar();
 
   if (quizIndex === showQuiz.length) {
+    getExp(exPoint); // 퀴즈 종료 후 경험치 누적 저장
+
     // 5문제를 다 풀었다면 결과 화면을 보여주기 위한 요소를 가져옴
     const quizGame = document.getElementById("quiz-game"); // 퀴즈 문제 화면 요소
     const oxBtns = document.getElementById("ox-btn"); // OX 버튼을 감싸는 요소
@@ -182,23 +177,24 @@ function handleAnswer(userAnswer: boolean): void {
     }
     // 일부만 맞은 경우
     else if (partialScreen && partialResultText) {
-      // 정답 갯수(score)를 텍스트로 표시(ex. "총 3문제 정답입니다.")
-      partialResultText.textContent = `총 ${score}문제 정답입니다.`;
-
+      partialResultText.textContent = `총 ${exPoint}문제 정답입니다.`; // 정답 갯수(score)를 텍스트로 표시(ex. "총 3문제 정답입니다.")
       partialScreen.classList.remove("hidden");
       partialScreen.classList.add("flex");
     }
-
-    // 결과 화면 보여주고 함수 종료
-    return;
+    return; // 결과 화면 보여주고 함수 종료
   }
-
-  // 퀴즈가 남아 있으면 다음 문제 표시
-  showCurrentQuestion();
+  showCurrentQuestion(); // 퀴즈가 남아 있으면 다음 문제 표시
 }
+answerObtn?.addEventListener("click", () => handleAnswer(true)); // O 버튼 클릭 시 true 전달 (정답 처리)
+answerXbtn?.addEventListener("click", () => handleAnswer(false)); // X 버튼 클릭 시 false 전달 (정답 처리)
 
-// O 버튼 클릭 시 true 전달 (정답 처리)
-answerObtn?.addEventListener("click", () => handleAnswer(true));
-
-// X 버튼 클릭 시 false 전달 (정답 처리)
-answerXbtn?.addEventListener("click", () => handleAnswer(false));
+/**
+ * 로컬스토리지에 누적 경험치를 저장하는 함수
+ * @param amount 이번 퀴즈에허 획득한 경험치(exPoint)
+ */
+function getExp(amount: number): void {
+  const storegedExp = localStorage.getItem("exPoint") || "0"; // 기존 경험치 값을 가져온다. 없으면 기본 값 "0"
+  const currentExp = parseInt(storegedExp, 10); // 문자열로 저장된 값을 정수(10진수)로 전환
+  const updateExp = currentExp + amount; // 기본 값에 새 경험치(amount) 더함
+  localStorage.setItem("exPoint", updateExp.toString()); // 얻은 경험치는 정수형이므로 로컬스토리지에 저장하기 위해 문자열로 다시 변환
+}

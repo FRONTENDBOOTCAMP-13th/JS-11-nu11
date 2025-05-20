@@ -36,10 +36,20 @@ document.addEventListener("DOMContentLoaded", () => {
     introScreen.classList.add("hidden"); // classList: 테윌윈드CSS로 예시를 들자면 class="hidden"을 추가하는 코드, 인트로 화면을 숨김
     playScreen.classList.remove("hidden"); // classList: 테윌윈드CSS로 예시를 들자면 class="hidden"을 제거하는 코드, 플레이 화면을 출력
   });
-  showCurrentQuestion(); // GAME START 버튼을 눌러 게임이 시작되면 바로 첫 문제가 보이도록 문제출력함수 호출
+
+  // 게임 시작 화면에서 메인으로 되돌아가기
   returnBtn?.addEventListener("click", () => {
     window.location.href = "../main/index.html";
   });
+
+  // 정답 결과 화면에서 돌아가기 버튼
+  const goBackBtn = document.getElementById("go-back-btn");
+  goBackBtn?.addEventListener("click", () => {
+    window.location.href = "../main/index.html";
+  });
+
+  // GAME START 버튼을 눌러 게임이 시작되면 바로 첫 문제가 보이도록 문제출력함수 호출
+  showCurrentQuestion();
 });
 
 // 문제 배열(quizArr)에서 랜덤하게 5문제를 추출하여 새 배열 생성
@@ -133,7 +143,43 @@ function handleAnswer(userAnswer: boolean): void {
   // 진행바 갱신
   renderProgressBar();
 
-  // 다음 문제 표시
+  // 퀴즈가 끝났을때 화면 처리(모두 정답인 경우)
+  if (quizIndex === showQuiz.length) {
+    const quizGame = document.getElementById("quiz-game");
+    const oxBtns = document.getElementById("ox-btn");
+    const resultScreen = document.getElementById("result-screen");
+    const failScreen = document.getElementById("fail-screen");
+    // 사용자가 모든 문제를 정답으로 맞췄는지 확인
+    const allCorrect = progressState.every(state => state === true);
+
+    // 사용자가 모든 문제를 틀렸는지 확인
+    const allWrong = progressState.every(state => state === false);
+
+    // 퀴즈 영역과 OX 버튼을 숨김(display: none)
+    if (quizGame) {
+      quizGame.classList.add("hidden");
+      quizGame.classList.remove("flex");
+    }
+    if (oxBtns) {
+      oxBtns.classList.add("hidden");
+      oxBtns.classList.remove("flex");
+    }
+
+    // 전부 정답일 경우 정답 화면 표시
+    if (allCorrect && resultScreen) {
+      resultScreen.classList.remove("hidden"); // hidden 제거(정답 화면 보이게 함)
+      resultScreen.classList.add("flex"); // display: flex 적용
+    }
+    // 전부 오답일 경우 오답 화면 표시
+    else if (allWrong && failScreen) {
+      failScreen.classList.remove("hidden"); // hidden 제거(틀린 화면 보이게 함)
+      failScreen.classList.add("flex"); // display: flex 적용
+    }
+    // 결과 화면 보여주고 함수 종료
+    return;
+  }
+
+  // 퀴즈가 남아 있으면 다음 문제 표시
   showCurrentQuestion();
 }
 

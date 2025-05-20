@@ -22,71 +22,97 @@
         display: block;
       }
 
-      [alt="character"] {
+      #character {
         transition: transform 0.3s ease-out;
       }
     </style>
 
     <div data-health-wrap="intro">
-      <!-- intro -->
-      <section data-health="intro">
-        <h1 class="text-6xl ml-[50px] my-[30px] font-bold">운동하기 - 스프린트</h1>
-        <div class="mx-[50px] mb-[50px] border-3 w-[900px] h-[740px] pl-[160px] pr-[210px] pt-[121px] pb-[105px]">
-          <img src="/src/assets/images/health.png" alt="health-intro" />
+      <!-- top 공통 -->
+      <section data-health="intro" class="mdev_layout">
+        <div class="mdev_layout_top">
+          <h1 class="mdev_layout_title">운동하기 - 스프린트</h1>
         </div>
-        <a href="/index.html" class="backBtn bg-amber-500 border-2 border-red-500">돌아가기</a>
-        <button type="button" id="startBtn" class="bg-blue-700 border-2 border-red-500">GAME START</button>
-      </section>
 
-      <!-- play 클래스로 타입 속성으로 값 조절 -->
-      <section data-health="play" class="border-3">
-        <!-- 두개 스타일 그룹 -->
-        <div class="flex flex-row justify-between mx-[50px] my-[30px] w-[900px]">
-          <h2 class="text-6xl font-bold">스프린트</h2>
-          <div class="time text-6xl"></div>
+        <!-- center 공통 -->
+        <div class="mdev_layout_center">
+          <img src="/src/assets/images/health_intro.svg" width="100%" alt="" />
         </div>
-        <!--  -->
 
-        <!-- 묶을 자리 -->
-        <div class="mx-[50px] mb-[50px] border-3 w-[900px] h-[740px] flex flex-col justify-between">
-          <div class="w-[794px] h-[100px] bg-[#D9D9D9] border-3 overflow-hidden relative mx-[53px] mt-[60px]">
-            <div class="h-[100%] w-[0] bg-[#AED400] transition-[width] duration-300 ease-in-out" id="sprintGauge"></div>
-          </div>
-
-          <div class="mt-[210px] ml-[53px] relative">
-            <img id="celebrate" class="hidden absolute right-[80px] top-[-110px]" src="/src/assets/images/celebrate.png" alt="celebrate" />
-            <img id="character" src="/src/assets/images/health.png" width="180" height="163" alt="character" />
-          </div>
-
-          <!-- div로 묶을 자리 -->
-          <div class="w-full h-[170px] bg-[#000000] flex justify-center items-center">
-            <img class="w-[320px] h-[80px]" id="spacebar3d" src="/src/assets/images/spacebar3d.png" alt="spacebar3d" />
-            <img class="w-[300px] h-[58px]" id="spacebar2d" src="/src/assets/images/spacebar2d.png" alt="spacebar2d" />
-          </div>
-          <!-- -->
+        <!-- bottom 공통 -->
+        <div class="mdev_layout_bottom">
+          <a href="/src/pages/main/index.html" data-btn id="backBtn">돌아가기</a>
+          <button type="button" id="startBtn" data-btn>GAME START</button>
         </div>
       </section>
 
-      <!-- 성공시 -->
-      <section data-health="success">
-        <h2 class="text-6xl ml-[50px] my-[30px] font-bold">스프린트</h2>
-        <div class="mx-[50px] mb-[50px] border-3 w-[900px] h-[740px] flex flex-col justify-center text-center">
-          <div class="text-[80px] font-bold">END</div>
-          <div class="text-6xl mt-[35px] text-[#AED400]">성공</div>
-          <div class="text-3xl mt-[10px] text-[#AAAAAA]">경험치를 획득합니다.</div>
+      <!-- top 제목, 남은 시간 영역 -->
+      <section data-health="play" class="mdev_layout">
+        <!-- 상단 타이틀 -->
+        <div class="mdev_layout_top">
+          <h1 class="mdev_layout_title text-[6vw] font-bold">스프린트</h1>
+          <div class="time mdev_layout_title text-[4vw] font-medium"></div>
         </div>
-        <button type="button" class="backBtn bg-amber-500 border-2 border-red-500">돌아가기</button>
+
+        <!-- 센터 -->
+        <div class="mdev_layout_center">
+          <!-- 게이지 바 -->
+          <div id="gauage-container" class="w-[80vw] h-[8vw] max-h-[100px] min-h-[60px] bg-[#D9D9D9] border-3 overflow-hidden relative mx-auto mt-[6vw]">
+            <div class="h-full w-[0] bg-[#AED400] transition-[width] duration-300 ease-in-out" id="sprintGauge"></div>
+          </div>
+
+          <!-- 캐릭터 -->
+          <div class="mt-[20vw] ml-[4vw] relative">
+            <img id="celebrate" class="hidden absolute right-[10vw] top-[-10vw] w-[10vw] max-w-[60px] min-w-[30px] h-auto" src="/src/assets/images/celebrate.png" alt="celebrate" />
+            <img id="character" class="w-[15vw] min-w-[120px] max-w-[180px] h-auto" src="/src/assets/images/health_play.png" alt="character" />
+          </div>
+
+          <!-- 바닥 및 스페이스바 -->
+          <div class="w-full h-[14vw] max-h-[170px] min-h-[120px] bg-[#000000] flex justify-center items-center">
+            <img class="w-[40vw] min-w-[280px] max-w-[450px] h-auto" id="spacebar3d" src="/src/assets/images/health_spacebar3d.png" alt="spacebar3d" />
+            <img class="w-[38vw] min-w-[260px] max-w-[420px] h-auto" id="spacebar2d" src="/src/assets/images/health_spacebar2d.png" alt="spacebar2d" />
+          </div>
+        </div>
+      </section>
+
+      <section data-health="success" class="mdev_layout">
+        <!-- Top -->
+        <div class="mdev_layout_top">
+          <h1 class="mdev_layout_title">스프린트</h1>
+        </div>
+
+        <!-- Center -->
+        <div class="mdev_layout_center">
+          <div class="w-full max-w-[900px] min-w-[280px] h-[65vw] max-h-[740px] min-h-[280px] flex flex-col justify-center items-center text-center mx-auto my-[8vw]">
+            <div class="text-[8vw] font-bold">END</div>
+            <div class="text-[6vw] mt-[4vw] text-mdev-green font-bold">성공</div>
+            <div class="text-[3.5vw] mt-[2vw] text-mdev-gray-a">경험치를 획득합니다.</div>
+          </div>
+        </div>
+
+        <!-- Bottom -->
+        <div class="mdev_layout_bottom">
+          <button type="button" data-btn>돌아가기</button>
+        </div>
       </section>
 
       <!-- 실패시 -->
-      <section data-health="fail">
-        <h2 class="text-6xl ml-[50px] my-[30px] font-bold">스프린트</h2>
-        <div class="mx-[50px] mb-[50px] border-3 w-[900px] h-[740px] flex flex-col justify-center text-center">
-          <div class="text-[80px] font-bold">END</div>
-          <div class="text-6xl mt-[35px] text-[#D47C00]">실패</div>
-          <div class="text-3xl mt-[10px] text-[#AAAAAA]">획득할 경험치가 없습니다.</div>
+      <section data-health="fail" class="mdev_layout">
+        <div class="mdev_layout_top">
+          <h1 class="mdev_layout_title">스프린트</h1>
         </div>
-        <button type="button" class="backBtn bg-amber-500 border-2 border-red-500">돌아가기</button>
+
+        <div class="mdev_layout_center">
+          <div class="w-full max-w-[900px] min-w-[280px] h-[65vw] max-h-[740px] min-h-[280px] flex flex-col justify-center items-center text-center mx-auto my-[8vw]">
+            <div class="text-[8vw] font-bold">END</div>
+            <div class="text-[6vw] mt-[4vw] text-mdev-fail font-bold">실패</div>
+            <div class="text-[3.5vw] mt-[2vw] text-mdev-gray-a">획득할 경험치가 없습니다.</div>
+          </div>
+        </div>
+
+        <div class="mdev_layout_bottom">
+          <button type="button" data-btn>돌아가기</button>
+        </div>
       </section>
     </div>
   </body>

@@ -1,6 +1,6 @@
-import "./style.css";
+import "/src/style.css";
 
-const maxGaugeValue = 62; // 게임 난이도 조절 값
+const maxGaugeValue = 63; // 게임 난이도 조절 값
 let gaugeValue = 0; // 게이지 값
 let isGameActive = false; // 초기 게임 상태 값
 
@@ -85,6 +85,7 @@ function spacebarEvent() {
   const spacebar3D = document.querySelector("#spacebar3d") as HTMLImageElement;
   const character = document.querySelector("#character") as HTMLImageElement;
   const celebrateImg = document.querySelector("#celebrate") as HTMLImageElement;
+  const gaugeContainer = document.querySelector("#gauage-container") as HTMLDivElement;
   let spacebarChange = true;
 
   // 타입 체크 추가
@@ -108,9 +109,14 @@ function spacebarEvent() {
     // TODO 나중에 삭제하기
     console.log(`현재 게이지: ${gaugeValue}/${maxGaugeValue}`);
 
-    if (character instanceof HTMLImageElement) {
-      // 게이지 값에 따라 최대 600px까지 이동
-      const moveDistance = (fillPercentage / 100) * 600;
+    if (character instanceof HTMLImageElement && gaugeContainer instanceof HTMLElement) {
+      // 컨테이너 너비와 캐릭터 너비를 기준으로 최대 이동 거리 계산
+      const containerWidth = gaugeContainer.clientWidth;
+      const characterWidth = character.clientWidth || 180;
+      const maxMoveDistance = containerWidth - characterWidth;
+
+      // 게이지 비율에 따라 이동 거리 계산
+      const moveDistance = (fillPercentage / 100) * maxMoveDistance;
       character.style.transform = `translateX(${moveDistance}px)`;
     }
     if (celebrateImg instanceof HTMLImageElement && fillPercentage >= 100) {
@@ -121,7 +127,7 @@ function spacebarEvent() {
       if (celebrateImg instanceof HTMLImageElement) {
         celebrateImg.classList.remove("hidden");
       }
-      setInterval(() => {
+      setTimeout(() => {
         gameResult();
       }, 1000);
     }
@@ -151,5 +157,4 @@ function spacebarEvent() {
     }
   });
 }
-
 spacebarEvent();

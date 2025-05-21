@@ -15,7 +15,7 @@ const quizArr: Question[] = [
   /* index[5] */ { question: "아래 코드를 실행하면 'number'가 된다.\n\nconst x = +'123'; console.log(typeof x);", answer: true },
   /* index[6] */ { question: `화살표 함수는 항상 this를 바인딩한다.`, answer: false },
   /* index[7] */ { question: `아래 코드를 실행하면 'number'가 출력된다.\nconsole.log(typeof NaN);`, answer: true },
-  /* index[8] */ { question: `JavaScript에서 객체의 키는 반드시 문자열이어야 한다.`, answer: true },
+  /* index[8] */ { question: `JavaScript에서 객체의 키는 반드시 문자열이어야 한다.`, answer: false },
   /* index[9] */ { question: "'try-catch' 구문에서는 try 블록에서 발생한 모든 에러를 catch 블록에서 잡을 수 있다.", answer: true },
   /* index[10] */ { question: "TypeScript에서 변수에 타입을 명시하지 않으면 자동으로 'any' 타입이 된다.", answer: true },
   /* index[11] */ { question: "TypeScript에서는 타입 단언(as)은 타입을 강제로 바꾸기 때문에 위험할 수 있다.", answer: true },
@@ -30,11 +30,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const returnBtn = document.getElementById("return-btn");
   const introScreen = document.getElementById("intro-screen");
   const playScreen = document.getElementById("play-screen");
+  const resultBtn = document.getElementById("go-back-btn-result");
+  const failBtn = document.getElementById("go-back-btn-fail");
+  const partBtn = document.getElementById("go-back-btn-part");
 
   // 메인화면에서 GAME START 버튼 클릭 시 게임화면으로 넘어감
   startBtn?.addEventListener("click", () => {
-    introScreen.classList.add("hidden"); // classList: 테윌윈드CSS로 예시를 들자면 class="hidden"을 추가하는 코드, 인트로 화면을 숨김
-    playScreen.classList.remove("hidden"); // classList: 테윌윈드CSS로 예시를 들자면 class="hidden"을 제거하는 코드, 플레이 화면을 출력
+    if (introScreen && playScreen) {
+      introScreen.classList.add("hidden"); // classList: 테윌윈드CSS로 예시를 들자면 class="hidden"을 추가하는 코드, 인트로 화면을 숨김
+      playScreen.classList.remove("hidden"); // classList: 테윌윈드CSS로 예시를 들자면 class="hidden"을 제거하는 코드, 플레이 화면을 출력
+    }
   });
 
   // 게임 시작 화면에서 메인으로 되돌아가기
@@ -42,10 +47,19 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "../main/index.html";
   });
 
-  // 정답 결과 화면에서 돌아가기 버튼
-  const goBackBtn = document.getElementById("go-back-btn");
-  goBackBtn?.addEventListener("click", () => {
-    window.location.href = "/src/main/index.html";
+  // 모두 정답일 때 메인으로 되돌아가기 버튼 이벤트
+  resultBtn?.addEventListener("click", () => {
+    window.location.href = "../main/index.html";
+  });
+
+  // 모두 오답일 때 메인으로 되돌아가기 버튼 이벤트
+  failBtn?.addEventListener("click", () => {
+    window.location.href = "../main/index.html";
+  });
+
+  // 일부만 정답일 때 메인으로 되돌아가기 이벤트 버튼
+  partBtn?.addEventListener("click", () => {
+    window.location.href = "../main/index.html";
   });
 
   // GAME START 버튼을 눌러 게임이 시작되면 바로 첫 문제가 보이도록 문제출력함수 호출

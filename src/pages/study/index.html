@@ -7,9 +7,9 @@
     <script type="module" src="./study.ts"></script>
   </head>
   <body>
-    <div class="h-screen flex items-center justify-center" data-study-wrap="intro">
+    <div class="font-sans" data-study-wrap="intro">
       <!-- intro -->
-      <div id="intro-screen" class="flex flex-col" data-study-page="intro">
+      <div id="intro-screen" class="mdev_layout" data-study-page="intro">
         <div class="quiz-main font-bold">
           <h1 class="text-3xl text-left">공부하기 - OX 퀴즈</h1>
         </div>
@@ -56,7 +56,7 @@
           <h2 class="text-4xl font-extrabold">END</h2>
           <p class="text-2xl font-bold text-mdev-success">축하드립니다! 모두 정답입니다!</p>
           <p class="text-sm text-gray-400">정답 수 만큼 경험치를 획득합니다.</p>
-          <button id="go-back-btn" class="mt-6 px-6 py-2 border-2 rounded-b-md hover:bg-gray-100">돌아가기</button>
+          <button id="go-back-btn-result" class="mt-6 px-6 py-2 border-2 rounded-b-md hover:bg-gray-100">돌아가기</button>
         </div>
 
         <!-- 전부 오답일때 화면 -->
@@ -64,7 +64,7 @@
           <h2 class="text-4xl font-extrabold">END</h2>
           <p class="text-2xl font-bold text-mdev-fail">모두 틀렸습니다ㅠㅠ!</p>
           <p class="text-sm text-gray-400">획득한 경험치가 없습니다..</p>
-          <button id="go-back-btn" class="mt-6 px-6 py-2 border-2 rounded-b-md hover:bg-gray-100">돌아가기</button>
+          <button id="go-back-btn-fail" class="mt-6 px-6 py-2 border-2 rounded-b-md hover:bg-gray-100">돌아가기</button>
         </div>
         <!-- 일부 정답 화면(1~4개) -->
         <div id="partial-screen" class="hidden flex-col items-center justify-center gap-4 mt-12">
@@ -72,7 +72,7 @@
           <!-- 이 부분은 동적 할당을 위해 Javascript로 구현 -->
           <p id="partial-result-text" class="text-2xl font-bold text-black"></p>
           <p class="text-sm text-gray-400">정답 수 만큼 경험치를 획득합니다.</p>
-          <button id="go-back-btn" class="mt-6 px-6 py-2 border-2 rounded-b-md hover:bg-gray-100">돌아가기</button>
+          <button id="go-back-btn-part" class="mt-6 px-6 py-2 border-2 rounded-b-md hover:bg-gray-100">돌아가기</button>
         </div>
       </div>
     </div>

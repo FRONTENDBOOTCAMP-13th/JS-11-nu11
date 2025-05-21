@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>공부하기</title>
+    <script type="module" src="./study.ts"></script>
+  </head>
+  <body>
+    <div class="font-sans" data-study-wrap="intro">
+      <!-- intro -->
+      <div id="intro-screen" class="mdev_layout" data-study-page="intro">
+        <div class="quiz-main font-bold">
+          <h1 class="text-3xl text-left">공부하기 - OX 퀴즈</h1>
+        </div>
+
+        <div class="border-2 flex-col items-center my-6">
+          <img src="/public/assets/images/study_intro.svg" alt="OX퀴즈 메인 이미지" />
+        </div>
+
+        <div class="flex gap-4 w-full justify-between px-0">
+          <button id="return-btn" class="text-3xl font-bold border-4 rounded-lg px-6 py-2 hover:text-blue-500 transition-colors duration-100">돌아가기</button>
+          <button id="start-btn" class="text-3xl font-bold border-4 rounded-lg px-6 py-2 hover:text-blue-500 transition-colors duration-100">GAME START</button>
+        </div>
+      </div>
+
+      <!-- play -->
+      <div id="play-screen" class="hidden flex-col items-center w-full" data-study-page="play">
+        <div id="score-board" class="flex justify-between">
+          <p class="font-semibold">OX 퀴즈</p>
+          <!-- 진행바: 정적으로 5개의 박스를 생성하여 타입스크립트를 통해 OX 값 업데이트-->
+          <div id="score" class="flex">
+            <div class="w-10 h-10 border border-gray-400 rounded-full flex items-center justify-center"></div>
+            <div class="w-10 h-10 border border-gray-400 rounded-full felx items-center justify-center"></div>
+            <div class="w-10 h-10 border border-gray-400 rounded-full flex items-center justify-center"></div>
+            <div class="w-10 h-10 border border-gray-400 rounded-full flex items-center justify-center"></div>
+            <div class="w-10 h-10 border border-gray-400 rounded-full flex items-center justify-center"></div>
+          </div>
+        </div>
+
+        <div id="quiz-game" class="border-2 w-[900px] relative max-w-4xl mx-auto">
+          <img src="/public/assets/images/study_white-board.png" alt="퀴즈 배경" class="w-full" />
+          <div id="quiz-board" class="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-2xl font-bold leading-snug drop-shadow">
+            <p id="quiz-question" class="text-center"></p>
+          </div>
+        </div>
+
+        <!-- OX 버튼 -->
+        <div id="ox-btn" class="flex items-center gap-6 h-[246px]">
+          <button id="o-btn" class="bg-white px-10 py-4 rounded-lg border-2 text-blue-500 text-3xl font-bold shadow-md hover:scale-125 transition">O</button>
+          <button id="x-btn" class="bg-white px-10 py-4 rounded-lg border-2 text-red-500 text-3xl font-bold shadow-md hover:scale-125 transition">X</button>
+        </div>
+
+        <!-- 전부 정답일때 화면 -->
+        <div id="result-screen" class="hidden flex-col items-center justify-center gap-4 mt-12">
+          <h2 class="text-4xl font-extrabold">END</h2>
+          <p class="text-2xl font-bold text-mdev-success">축하드립니다! 모두 정답입니다!</p>
+          <p class="text-sm text-gray-400">정답 수 만큼 경험치를 획득합니다.</p>
+          <button id="go-back-btn-result" class="mt-6 px-6 py-2 border-2 rounded-b-md hover:bg-gray-100">돌아가기</button>
+        </div>
+
+        <!-- 전부 오답일때 화면 -->
+        <div id="fail-screen" class="hidden flex-col items-center justify-center gap-4 mt-12">
+          <h2 class="text-4xl font-extrabold">END</h2>
+          <p class="text-2xl font-bold text-mdev-fail">모두 틀렸습니다ㅠㅠ!</p>
+          <p class="text-sm text-gray-400">획득한 경험치가 없습니다..</p>
+          <button id="go-back-btn-fail" class="mt-6 px-6 py-2 border-2 rounded-b-md hover:bg-gray-100">돌아가기</button>
+        </div>
+        <!-- 일부 정답 화면(1~4개) -->
+        <div id="partial-screen" class="hidden flex-col items-center justify-center gap-4 mt-12">
+          <h2 class="text-4xl font-extrabold">END</h2>
+          <!-- 이 부분은 동적 할당을 위해 Javascript로 구현 -->
+          <p id="partial-result-text" class="text-2xl font-bold text-black"></p>
+          <p class="text-sm text-gray-400">정답 수 만큼 경험치를 획득합니다.</p>
+          <button id="go-back-btn-part" class="mt-6 px-6 py-2 border-2 rounded-b-md hover:bg-gray-100">돌아가기</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

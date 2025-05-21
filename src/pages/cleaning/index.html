@@ -1,0 +1,87 @@
+<!doctype html>
+
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>메인</title>
+    <link rel="stylesheet" href="../../style.css" />
+    <script type="module" src="/src/pages/cleaning/cleaning.ts"></script>
+    <style>
+      /* 모든 section 숨김 */
+      [data-page] {
+        display: none;
+      }
+
+      /* 현재 보여줄 section은 body에 data-page-wrap 값 기준으로 */
+      body[data-page-wrap="main"] [data-page="main"],
+      body[data-page-wrap="game"] [data-page="game"],
+      body[data-page-wrap="success"] [data-page="success"],
+      body[data-page-wrap="fail"] [data-page="fail"] {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body data-page-wrap="main">
+    <section data-page="main" class="mdev_layout">
+      <div class="mdev_layout_top">
+        <h1 class="mdev_layout_title">청소하기</h1>
+      </div>
+
+      <div class="mdev_layout_center relative">
+        <img src="/public/assets/images/cleaning_intro.svg" width="100%" alt="청소하는 사람" />
+      </div>
+
+      <div class="mdev_layout_bottom">
+        <button data-btn="mainReturnBtn">돌아가기</button>
+        <button data-btn="mainGameStartBtn">GAME START</button>
+      </div>
+    </section>
+    <section data-page="game" class="mdev_layout">
+      <div class="mdev_layout_top">
+        <h1 class="mdev_layout_title">청소하기</h1>
+        <div class="text-[0px]">
+          <span id="score" class="inline-block mr-[1vw] align-middle text-[4vw] font-bold" style="font-family: var(--font-sans)">0/10</span>
+        </div>
+      </div>
+
+      <div class="mdev_layout_center relative">
+        <div id="gameArea" class="relative h-[740px] rounded-md shadow-md mdev_border overflow-hidden bg-[var(--color-mdev-white)]"></div>
+      </div>
+
+      <div class="mdev_layout_bottom"></div>
+    </section>
+    <section data-page="success" class="mdev_layout">
+      <div class="mdev_layout_top">
+        <h1 class="mdev_layout_title">청소하기</h1>
+      </div>
+
+      <div class="mdev_layout_center relative">
+        <div class="font-bold text-80">END</div>
+        <div class="font-bold text-mdev-success text-60">청소 완료</div>
+        <div class="font-bold text-mdev-gray-a text-40" style="letter-spacing: -0.05em">방이 깨끗해졌어요.</div>
+      </div>
+
+      <div class="mdev_layout_bottom">
+        <button data-btn="mainReturnBtn" class="return-btn" data-href="/public/pages/main/index.html">돌아가기</button>
+      </div>
+    </section>
+
+    <section data-page="fail" class="mdev_layout">
+      <div class="mdev_layout_top">
+        <h1 class="mdev_layout_title">청소하기</h1>
+      </div>
+
+      <div class="mdev_layout_center relative">
+        <div class="font-bold" style="font-size: var(--text-80)">END</div>
+        <div class="font-bold text-mdev-fail" style="font-size: var(--text-60)">청소 실패</div>
+        <div class="font-bold text-mdev-gray-a" style="font-size: var(--text-30); letter-spacing: -0.05em">10개 모두 제거하지 못했어요ㅠㅠ 다시 청소해주세요.</div>
+      </div>
+
+      <div class="mdev_layout_bottom">
+        <button data-btn="mainReturnBtn" class="return-btn" data-href="/public/pages/cleaning/index.html">돌아가기</button>
+      </div>
+    </section>
+  </body>
+</html>

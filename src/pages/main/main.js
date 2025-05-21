@@ -2,23 +2,21 @@ import "/src/style.css";
 
 document.addEventListener("DOMContentLoaded", function () {
   const pageWrap = document.querySelector("[data-page-wrap]");
-
-  //----------------------------- [exPoint - 경험치] -----------------------------
-  //경험치 포인트(0~100), 3단계: 공부하기(study), 운동하기(health) 진행 시
-  //0~30: 하수단계
-  //31~60: 중수단계
-  //61~99: 고수단계
-  //100이상: ending
-  let exPoint = 0;
-
-  //----------------------------- [hpPoint - 체력] -----------------------------
   const hpBar = document.querySelectorAll(".hp_bar span");
   const hpBarTime = 100; //체력감소 시간 설정 (d:1000)
 
+  let level = 1;
+  let exPoint = 0;
   let hpPoint = 100; //(d:100)
+  const hpPointLow = 30; //(d:30)
   let hpBarInterval = null;
 
-  //체력 감소 진행 함수
+  /**
+   * 체력 감소, 증가 함수
+   * @param {string} type
+   * @description 체력 감소 또는 증가를 설정합니다.
+   * @returns {void}
+   */
   function startHpBarInterval(type) {
     const bgGreen = "bg-mdev-green";
     const bgOrange = "bg-mdev-orange";
@@ -29,44 +27,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
     hpBarInterval = setInterval(() => {
       if (type === "minus") {
-        //체력 감소
-        hpPoint -= 1;
+        hpPoint = Math.max(hpPoint - 1, 0);
       } else if (type === "plus") {
-        //체력 증가
-        hpPoint += 1;
-
-        if (hpPoint > 100) {
-          hpPoint = 100;
-        }
+        hpPoint = Math.min(hpPoint + 1, 100);
       }
 
+      const isLowHp = hpPoint <= hpPointLow;
       hpBar.forEach(bar => {
         bar.style.width = `${hpPoint}%`;
 
-        if (hpPoint <= 30) {
-          if (bar.classList.contains(bgGreen)) {
-            bar.classList.remove(bgGreen);
-            bar.classList.add(bgOrange);
-          }
-        } else {
-          if (bar.classList.contains(bgOrange)) {
-            bar.classList.remove(bgOrange);
-            bar.classList.add(bgGreen);
-          }
+        if (isLowHp && bar.classList.contains(bgGreen)) {
+          bar.classList.replace(bgGreen, bgOrange);
+        } else if (!isLowHp && bar.classList.contains(bgOrange)) {
+          bar.classList.replace(bgOrange, bgGreen);
         }
       });
 
       if (hpPoint <= 0) {
         clearInterval(hpBarInterval);
         hpBarInterval = null;
-
         pageWrap.dataset.pageWrap = "dying";
         initFnc();
       }
     }, hpBarTime);
   }
 
-  //체력 감소 중지 함수
+  /**
+   * 체력 감소 중지 함수
+   * @description 체력 감소를 중지하고, hpBarInterval을 null로 설정합니다.
+   * @returns {void}
+   */
   function stopHpBarInterval() {
     if (hpBarInterval) {
       clearInterval(hpBarInterval);
@@ -79,20 +69,44 @@ document.addEventListener("DOMContentLoaded", function () {
     mutations.forEach(mutation => {
       if (mutation.type === "attributes" && mutation.attributeName === "data-page-wrap") {
         const currentPageState = pageWrap.dataset.pageWrap;
+        const currentLevel = JSON.parse(localStorage.getItem("level"));
 
         localStorage.setItem("page", currentPageState);
+        localStorage.setItem("hpPoint", hpPoint);
 
         if (currentPageState === "intro") {
-          localStorage.setItem("hpPoint", 100);
           stopHpBarInterval();
+        } else if (currentPageState === "eat") {
+          const food1 = document.querySelector("[data-eat='drink']");
+          const food2 = document.querySelector("[data-eat='hamburger']");
+          const food3 = document.querySelector("[data-eat='piza']");
+
+          if (currentLevel === 1) {
+            food1.classList.remove("hidden");
+            food2.classList.add("hidden");
+            food3.classList.add("hidden");
+          } else if (currentLevel === 2) {
+            food1.classList.remove("hidden");
+            food2.classList.remove("hidden");
+            food3.classList.add("hidden");
+          } else if (currentLevel === 3) {
+            food1.classList.remove("hidden");
+            food2.classList.remove("hidden");
+            food3.classList.remove("hidden");
+          }
+
+          stopHpBarInterval();
+        } else if (currentPageState === "eat_result") {
+          setTimeout(() => {
+            pageWrap.dataset.pageWrap = "play";
+          }, 3000);
+        } else if (currentPageState === "sleep") {
+          startHpBarInterval("plus");
         } else if (currentPageState === "play") {
           if (exPoint >= 100) {
             pageWrap.dataset.pageWrap = "ending";
           }
           startHpBarInterval("minus");
-        } else if (currentPageState === "sleep") {
-          localStorage.setItem("hpPoint", hpPoint);
-          startHpBarInterval("plus");
         }
       }
     });
@@ -100,49 +114,60 @@ document.addEventListener("DOMContentLoaded", function () {
   //페이지 변경 감지
   pageWrapObserver.observe(pageWrap, { attributes: true });
 
-  //----------------------------- [init] -----------------------------
-  //초기화 함수
-  function initFnc() {
-    hpPoint = 100;
-
-    localStorage.setItem("page", pageWrap.dataset.pageWrap);
-    localStorage.setItem("hpPoint", 100);
-    localStorage.setItem("exPoint", 0);
-  }
-  initFnc();
-
   //----------------------------- [buttons] -----------------------------
   const playButtons = document.querySelectorAll("[data-page-wrap] [data-btn]");
   for (const button of playButtons) {
     button.addEventListener("click", event => {
-      if (event.target.dataset.btn === "start") {
+      const btn = event.currentTarget.dataset.btn;
+
+      if (btn === "start") {
         pageWrap.dataset.pageWrap = "play";
-      } else if (event.target.dataset.btn === "eat") {
-        eatFnc();
-      } else if (event.target.dataset.btn === "sleep") {
+      } else if (btn === "eat") {
+        pageWrap.dataset.pageWrap = "eat";
+      } else if (btn === "eat_back") {
+        pageWrap.dataset.pageWrap = "play";
+      } else if (btn === "sleep") {
         pageWrap.dataset.pageWrap = "sleep";
-      } else if (event.target.dataset.btn === "wakeup") {
+      } else if (btn === "wakeup") {
         pageWrap.dataset.pageWrap = "play";
-      } else if (event.target.dataset.btn === "study") {
+      } else if (btn === "study") {
         studyFnc();
-      } else if (event.target.dataset.btn === "health") {
+      } else if (btn === "health") {
         healthFnc();
-      } else if (event.target.dataset.btn === "cleaning") {
+      } else if (btn === "cleaning") {
         cleaningFnc();
-      } else if (event.target.dataset.btn === "restart") {
+      } else if (btn === "restart") {
         pageWrap.dataset.pageWrap = "intro";
       }
     });
   }
 
-  //----------------------------- [eat - 밥먹기] -----------------------------
-  //밥먹기 함수 - hpPoint증가
-  function eatFnc() {
-    console.log("밥먹기 함수 연결");
-    //에너지 음료 - 하수단계 (+30)
-    //햄버거 - 중수단계 (+60)
-    //피자 - 고수단계 (+100)
-    window.location.href = "/src/pages/eat/index.html";
+  const eatButtons = document.querySelectorAll("[data-eat-wrap='food_sel'] [data-eat]");
+  const foodValues = {
+    drink: 30,
+    hamburger: 60,
+    piza: 100,
+  };
+
+  for (const button of eatButtons) {
+    button.addEventListener("click", event => {
+      const foodType = event.currentTarget.dataset.eat;
+
+      if (foodValues[foodType]) {
+        hpPoint += foodValues[foodType];
+      }
+
+      hpPoint = Math.min(hpPoint, 100);
+
+      const isLowHp = hpPoint <= 30;
+      hpBar.forEach(bar => {
+        bar.classList.toggle("bg-mdev-orange", isLowHp);
+        bar.classList.toggle("bg-mdev-green", !isLowHp);
+        bar.style.width = `${hpPoint}%`;
+      });
+
+      pageWrap.dataset.pageWrap = "eat_result";
+    });
   }
 
   //----------------------------- [study - 공부하기] -----------------------------
@@ -168,4 +193,20 @@ document.addEventListener("DOMContentLoaded", function () {
     //쓰레기 클릭해서 없애기
     window.location.href = "/src/pages/cleaning/index.html";
   }
+
+  //----------------------------- [init] -----------------------------
+  /**
+   * 초기화 함수
+   * @description 페이지를 초기화하고, 체력, 경험치, 레벨을 설정합니다.
+   * @returns {void}
+   */
+  function initFnc() {
+    hpPoint = 100;
+
+    localStorage.setItem("page", pageWrap.dataset.pageWrap);
+    localStorage.setItem("level", 1);
+    localStorage.setItem("hpPoint", 100);
+    localStorage.setItem("exPoint", 0);
+  }
+  initFnc();
 });

@@ -16,13 +16,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const food3 = document.querySelector("[data-food='piza']") as HTMLElement;
 
   // let exPoint = parseInt(localStorage.getItem("exPoint") || "0", 10);
-  const maxExPoint = 30; // 최대 경험치 (d:100)
+  const maxExPoint = 20; // 최대 경험치 (d:100)
 
   let hpPoint = parseInt(localStorage.getItem("hpPoint") || "100", 10);
   const hpPointLow = 30; // (d:30)
   const hpBar = document.querySelectorAll(".hp_bar span") as NodeListOf<HTMLElement>;
-  const hpBarTime = 500; // 체력감소 시간 설정 (d:1000)
+  const hpBarTime = 300; // 체력감소 시간 설정 (d:1000)
   let hpBarInterval: number | null = null;
+  let trashInterval: number | null = null;
 
   //----------------------------- [reload] -----------------------------
   /**
@@ -61,6 +62,13 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.setItem("level", updateLevel.toString());
     console.log(`레벨 업데이트: ${updateLevel} (경험치: ${currentExPoint}/${maxExPoint})`);
 
+    if (currentExPoint >= maxExPoint) {
+      stopHpBarInterval();
+      hpBarInterval = null;
+      pageWrap.dataset.pageWrap = "ending";
+      localStorage.setItem("page", "ending");
+    }
+
     if (page === "play") {
       playWrap.dataset.playWrap = updateLevel === 1 ? "hasu" : updateLevel === 2 ? "joongsu" : "gosu";
     } else if (page === "sleep") {
@@ -70,22 +78,13 @@ document.addEventListener("DOMContentLoaded", function () {
       food2.classList.toggle("hidden", updateLevel < 2);
       food3.classList.toggle("hidden", updateLevel < 3);
     }
-
-    if (currentExPoint >= maxExPoint) {
-      pageWrap.dataset.pageWrap = "ending";
-      localStorage.setItem("exPoint", "0");
-
-      sleepSound.pause();
-      sleepSound.loop = false;
-      sleepSound.currentTime = 0;
-    }
   }
   updateLevel(currentPage);
 
-  function pageWrapSet(): void {
-    pageWrap.dataset.pageWrap = currentPage;
+  function pageWrapSet(page: string): void {
+    pageWrap.dataset.pageWrap = page;
   }
-  pageWrapSet();
+  pageWrapSet(localStorage.getItem("page") || "intro");
 
   function trashSet(): void {
     if (localStorage.getItem("trash") === "on") {
@@ -97,27 +96,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
   trashSet();
-
-  //----------------------------- [init] -----------------------------
-  /**
-   * 초기화 함수
-   * @description 페이지를 초기화하고, 체력, 경험치, 레벨을 설정합니다.
-   * @returns {void}
-   */
-  function initFnc(): void {
-    localStorage.clear();
-    localStorage.setItem("level", "1");
-    localStorage.setItem("exPoint", "0");
-    localStorage.setItem("hpPoint", "100");
-    localStorage.setItem("page", "intro");
-    localStorage.setItem("trash", "off");
-    hpBarSet();
-  }
-
-  if (currentPage === "intro") {
-    console.log("인트로 페이지 / 초기화");
-    initFnc();
-  }
 
   //----------------------------------------------------------
   /**
@@ -190,35 +168,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //----------------------------------------------------------
   // 페이지 변화 감지
-  let trashInterval: number | null = null;
   const pageWrapObserver = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       if (mutation.type === "attributes" && mutation.attributeName === "data-page-wrap") {
         const currentPageState = pageWrap.dataset.pageWrap;
-        const currentExPoint = parseInt(localStorage.getItem("exPoint") || "0", 10);
-
-        if (currentPageState === "ending") {
-          stopHpBarInterval();
-          if (trashInterval) {
-            clearInterval(trashInterval);
-            trashInterval = null;
-          }
-          localStorage.setItem("exPoint", "0");
-          return;
-        }
-
-        if (currentExPoint >= maxExPoint) {
-          localStorage.setItem("exPoint", "0");
-          pageWrap.dataset.pageWrap = "ending";
-          sleepSound.pause();
-          sleepSound.loop = false;
-          sleepSound.currentTime = 0;
-          return;
-        }
-
-        if (currentPageState) {
-          updateLevel(currentPageState);
-        }
 
         localStorage.setItem("page", currentPageState || "");
         localStorage.setItem("hpPoint", hpPoint.toString());
@@ -232,18 +185,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1000 * 20);
         trashSet();
 
+        console.log("현재 페이지 상태:", currentPageState);
+
         stopHpBarInterval();
 
         if (currentPageState === "intro") {
           initFnc();
+        } else if (currentPageState === "eat") {
+          updateLevel(currentPageState);
         } else if (currentPageState === "eat_result") {
           setTimeout(() => {
             pageWrap.dataset.pageWrap = "play";
           }, 8000);
         } else if (currentPageState === "sleep") {
           startHpBarInterval("plus");
+          updateLevel(currentPageState);
         } else if (currentPageState === "play") {
           startHpBarInterval("minus");
+          updateLevel(currentPageState);
         }
       }
     });
@@ -259,9 +218,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const target = event.currentTarget as HTMLElement;
       const btn = target.dataset.btn as string;
 
-      localStorage.setItem("hpPoint", hpPoint.toString());
-
       if (btn === "start") {
+        hpBarSet();
         pageWrap.dataset.pageWrap = "play";
       } else if (btn === "eat") {
         pageWrap.dataset.pageWrap = "eat";
@@ -363,4 +321,46 @@ document.addEventListener("DOMContentLoaded", function () {
     initFnc();
     location.reload();
   });
+
+  //----------------------------- [init] -----------------------------
+  /**
+   * 초기화 함수
+   * @description 페이지를 초기화하고, 체력, 경험치, 레벨을 설정합니다.
+   * @returns {void}
+   */
+  function initFnc(): void {
+    if (trashInterval) {
+      clearInterval(trashInterval);
+      trashInterval = null;
+    }
+
+    if (hpBarInterval) {
+      clearInterval(hpBarInterval);
+      hpBarInterval = null;
+    }
+
+    sleepSound.pause();
+    sleepSound.loop = false;
+    sleepSound.currentTime = 0;
+
+    drinkSound.pause();
+    drinkSound.loop = false;
+    drinkSound.currentTime = 0;
+
+    foodSound.pause();
+    foodSound.loop = false;
+    foodSound.currentTime = 0;
+
+    localStorage.clear();
+    localStorage.setItem("level", "1");
+    localStorage.setItem("exPoint", "0");
+    localStorage.setItem("hpPoint", "100");
+    localStorage.setItem("page", "intro");
+    localStorage.setItem("trash", "off");
+  }
+
+  if (currentPage === "intro") {
+    console.log("인트로 페이지 / 초기화");
+    initFnc();
+  }
 });

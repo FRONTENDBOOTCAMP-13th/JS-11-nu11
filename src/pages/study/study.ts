@@ -26,189 +26,209 @@ const quizArr: Question[] = [
 
 // 메인화면의 요소들을 가져옴
 document.addEventListener("DOMContentLoaded", () => {
-  const startBtn = document.getElementById("start-btn");
-  const returnBtn = document.getElementById("return-btn");
-  const introScreen = document.getElementById("intro-screen");
-  const playScreen = document.getElementById("play-screen");
-  const resultBtn = document.getElementById("go-back-btn-result");
-  const failBtn = document.getElementById("go-back-btn-fail");
-  const partBtn = document.getElementById("go-back-btn-part");
+  localStorage.setItem("page", "study");
+
+  const studyWrap = document.querySelector("[data-study-wrap]") as HTMLElement;
+  const studyEndWrap = document.querySelector("[data-study-end-wrap]") as HTMLElement;
+  // const startBtn = document.querySelector("[data-btn='study_start']");
+
+  const studyButtons = studyWrap.querySelectorAll("[data-btn]");
+
+  // const returnBtn = document.getElementById("return-btn");
+  // const introScreen = document.getElementById("intro-screen");
+  // const playScreen = document.getElementById("play-screen");
+  // const resultBtn = document.getElementById("go-back-btn-result");
+  // const failBtn = document.getElementById("go-back-btn-fail");
+  // const partBtn = document.getElementById("go-back-btn-part");
 
   // 메인화면에서 GAME START 버튼 클릭 시 게임화면으로 넘어감
-  startBtn?.addEventListener("click", () => {
-    if (introScreen && playScreen) {
-      introScreen.classList.add("hidden"); // classList: 테윌윈드CSS로 예시를 들자면 class="hidden"을 추가하는 코드, 인트로 화면을 숨김
-      playScreen.classList.remove("hidden"); // classList: 테윌윈드CSS로 예시를 들자면 class="hidden"을 제거하는 코드, 플레이 화면을 출력
-    }
-  });
+  // startBtn?.addEventListener("click", () => {
+  //   studyWrap.dataset.studyWrap = "play";
+  // if (introScreen && playScreen) {
+  //   introScreen.classList.add("hidden"); // classList: 테윌윈드CSS로 예시를 들자면 class="hidden"을 추가하는 코드, 인트로 화면을 숨김
+  //   playScreen.classList.remove("hidden"); // classList: 테윌윈드CSS로 예시를 들자면 class="hidden"을 제거하는 코드, 플레이 화면을 출력
+  // }
+  // });
 
   // 게임 시작 화면에서 메인으로 되돌아가기
-  returnBtn?.addEventListener("click", () => {
-    window.location.href = "../main/index.html";
-  });
+  // returnBtn?.addEventListener("click", () => {
+  //   window.location.href = "../main/index.html";
+  // });
 
   // 모두 정답일 때 메인으로 되돌아가기 버튼 이벤트
-  resultBtn?.addEventListener("click", () => {
-    window.location.href = "../main/index.html";
-  });
+  // resultBtn?.addEventListener("click", () => {
+  //   window.location.href = "../main/index.html";
+  // });
 
   // 모두 오답일 때 메인으로 되돌아가기 버튼 이벤트
-  failBtn?.addEventListener("click", () => {
-    window.location.href = "../main/index.html";
-  });
+  // failBtn?.addEventListener("click", () => {
+  //   window.location.href = "../main/index.html";
+  // });
 
   // 일부만 정답일 때 메인으로 되돌아가기 이벤트 버튼
-  partBtn?.addEventListener("click", () => {
-    window.location.href = "../main/index.html";
-  });
+  // partBtn?.addEventListener("click", () => {
+  //   window.location.href = "../main/index.html";
+  // });
 
+  // 문제 배열(quizArr)에서 랜덤하게 5문제를 추출하여 새 배열 생성
+  // [...quizArr]는 원본 배열을 얕은 복사함
+  // sort()로 배열을 섞고 slice(0, 5)로 배열의 앞에서 5개 선택
+  // const showQuiz: Question[] = quizArr.sort(() => 0.5 - Math.random()); // 이 코드는 실제 원본인 quizArr의 인덱스를 바꾸게 되어 현재 문제 객체의 인덱스가 달라질 수 있음
+  const showQuiz: Question[] = [...quizArr].sort(() => Math.random() - 0.5).slice(0, 5); // 이렇게 변경하면 원본은 유지한채로 새로운 배열[...quizArr]을 만들어 랜덤하게 섞고 5문제를 추출함 -> 얕은 복사
+
+  // 현재 퀴즈 인덱스를 추적할 변수(0부터 시작)
+  let quizIndex: number = 0;
+
+  // 정답을 맞힌 수(경험치로도 사용)
+  let successCnt: number = 0;
+
+  // 각 문제의 정답 여부 상태를 저장하는 배열 (초기에는 전부 null)
+  // 맞추면 true, 틀리면 false로 바뀜
+  const progressState: (boolean | null)[] = Array(showQuiz.length).fill(null);
+
+  // DOM 요소 가져오기
+  const questionEl = document.getElementById("quiz-question"); // 문제 텍스트가 표시될 HTML 요소
+  const answerObtn = document.getElementById("o-btn"); // OX 버튼요소 가져오기
+  const answerXbtn = document.getElementById("x-btn"); // OX 버튼요소 가져오기
+
+  /**
+   * 현재 문제를 화면에 출력하는 함수
+   * - 현재 인덱스(quizIndex)에 해당 하는 문제를 표시
+   */
+  function showCurrentQuestion() {
+    // 현재 문제 객체
+    const currentQuiz = showQuiz[quizIndex];
+
+    // 문제를 보여줄 DOM 요소가 존재할 경우
+    // 문제 번호와 문제 내용을 텍스트로 설정
+    // ex) [문제1] typeof null의 결과는 'null'이다.
+    if (questionEl) {
+      questionEl.textContent = `[문제 ${quizIndex + 1}] ${currentQuiz.question}`; // quizIndex는 0부터 시작하므로 1번 무제를 표시해주기 위해 +1을 했고, showQuiz 배열의 객체 중 question의 값을 같이 출력
+    }
+  }
   // GAME START 버튼을 눌러 게임이 시작되면 바로 첫 문제가 보이도록 문제출력함수 호출
   showCurrentQuestion();
+
+  /**
+   * 진행바 랜더링 함수 (HTML에 있는 score 하위 div 5개 사용)
+   * 문제를 푼 결과에 따라 O, X 또는 회색으로 미답 표시
+   */
+  function renderProgressBar(): void {
+    const progressBar = document.querySelectorAll(".score"); // 진행바 컨테이너
+
+    // NodeList의 모든 요소에 대해 반복
+    progressBar.forEach(bar => {
+      const boxs = bar.children;
+      if (!boxs) return;
+
+      progressState.forEach((status, i) => {
+        if (i >= boxs.length) return;
+        const box = boxs[i] as HTMLElement;
+        if (!box) return;
+
+        if (status === true) {
+          box.textContent = "O";
+          box.classList.add("on_o");
+        } else if (status === false) {
+          box.textContent = "X";
+          box.classList.add("on_x");
+        }
+      });
+    });
+  }
+
+  /**
+   * 정답/오답 처리 함수
+   * 문제에 따라 O가 정답일수도 있고 X가 정답일수 있으므로 해당 문제에 대한 정답일때, 오답일때 처리해줘야함
+   * @param userAnswer 유저의 선택(true or false)
+   */
+  function handleAnswer(userAnswer: boolean): void {
+    const currentQuiz = showQuiz[quizIndex]; // 현재 문제 가져오기
+    const isCorrect = userAnswer === currentQuiz.answer; // 유저의 선택이 실제 정답과 같은지 비교
+    progressState[quizIndex] = isCorrect; // 진행 상태 배열에 정답 여부 저장 (true or false)
+
+    // 정답일 경우 경험치 1 증가
+    if (isCorrect) {
+      successCnt++;
+    }
+
+    // 다음 문제로 넘어가기 위해 quizIndex 증가
+    quizIndex++;
+
+    // 진행바 갱신
+    renderProgressBar();
+
+    if (quizIndex === showQuiz.length) {
+      getExp(successCnt); // 퀴즈 종료 후 경험치 누적 저장
+
+      // 5문제를 다 풀었다면 결과 화면을 보여주기 위한 요소를 가져옴
+      // const quizGame = document.getElementById("quiz-game"); // 퀴즈 문제 화면 요소
+      // const oxBtns = document.getElementById("ox-btn"); // OX 버튼을 감싸는 요소
+      const partialResultText = document.getElementById("partial-result-text"); // n개 맞힌 텍스트
+
+      // 사용자가 모든 문제를 정답으로 맞췄는지 확인(모든 요소가 true인지 검사)
+      const allCorrect = progressState.every(state => state === true);
+
+      // 사용자가 모든 문제를 틀렸는지 확인(모든 요소가 false인지 검사)
+      const allWrong = progressState.every(state => state === false);
+
+      // 퀴즈 영역과 OX 버튼을 숨김(display: none)
+      // if (quizGame) {
+      //   quizGame.classList.add("hidden");
+      //   quizGame.classList.remove("flex");
+      // }
+      // if (oxBtns) {
+      //   oxBtns.classList.add("hidden");
+      //   oxBtns.classList.remove("flex");
+      // }
+
+      // 전부 정답일 경우 정답 화면 표시
+      if (allCorrect) {
+        studyWrap.dataset.studyWrap = "end";
+        studyEndWrap.dataset.studyEndWrap = "end_success";
+      }
+      // 전부 오답일 경우 오답 화면 표시
+      else if (allWrong) {
+        studyWrap.dataset.studyWrap = "end";
+        studyEndWrap.dataset.studyEndWrap = "end_fail";
+      }
+      // 일부만 맞은 경우
+      else if (partialResultText) {
+        studyWrap.dataset.studyWrap = "end";
+        studyEndWrap.dataset.studyEndWrap = "end_partial";
+        partialResultText.textContent = `총 ${successCnt}문제 정답입니다.`; // 정답 갯수(score)를 텍스트로 표시(ex. "총 3문제 정답입니다.")
+      }
+
+      return; // 결과 화면 보여주고 함수 종료
+    }
+    showCurrentQuestion(); // 퀴즈가 남아 있으면 다음 문제 표시
+  }
+  answerObtn?.addEventListener("click", () => handleAnswer(true)); // O 버튼 클릭 시 true 전달 (정답 처리)
+  answerXbtn?.addEventListener("click", () => handleAnswer(false)); // X 버튼 클릭 시 false 전달 (정답 처리)
+
+  /**
+   * 로컬스토리지에 누적 경험치를 저장하는 함수
+   * @param amount 이번 퀴즈에허 획득한 경험치(successCnt)
+   */
+  function getExp(amount: number): void {
+    const storegedExp = localStorage.getItem("exPoint") || "0"; // 기존 경험치 값을 가져온다. 없으면 기본 값 "0"
+    const currentExp = parseInt(storegedExp, 10); // 문자열로 저장된 값을 정수(10진수)로 전환
+    const updateExp = currentExp + amount; // 기본 값에 새 경험치(amount) 더함
+
+    localStorage.setItem("exPoint", updateExp.toString()); // 얻은 경험치는 정수형이므로 로컬스토리지에 저장하기 위해 문자열로 다시 변환
+  }
+
+  for (const button of studyButtons) {
+    button.addEventListener("click", event => {
+      const target = event.currentTarget as HTMLElement;
+      const btn = target.dataset.btn as string;
+
+      if (btn === "study_start") {
+        studyWrap.dataset.studyWrap = "play";
+      } else if (btn === "back_main") {
+        localStorage.setItem("page", "play");
+        window.location.href = "../main/index.html";
+      }
+    });
+  }
 });
-
-// 문제 배열(quizArr)에서 랜덤하게 5문제를 추출하여 새 배열 생성
-// [...quizArr]는 원본 배열을 얕은 복사함
-// sort()로 배열을 섞고 slice(0, 5)로 배열의 앞에서 5개 선택
-// const showQuiz: Question[] = quizArr.sort(() => 0.5 - Math.random()); // 이 코드는 실제 원본인 quizArr의 인덱스를 바꾸게 되어 현재 문제 객체의 인덱스가 달라질 수 있음
-const showQuiz: Question[] = [...quizArr].sort(() => Math.random() - 0.5).slice(0, 5); // 이렇게 변경하면 원본은 유지한채로 새로운 배열[...quizArr]을 만들어 랜덤하게 섞고 5문제를 추출함 -> 얕은 복사
-
-// 현재 퀴즈 인덱스를 추적할 변수(0부터 시작)
-let quizIndex: number = 0;
-
-// 정답을 맞힌 수(경험치로도 사용)
-let exPoint: number = 0;
-
-// 각 문제의 정답 여부 상태를 저장하는 배열 (초기에는 전부 null)
-// 맞추면 true, 틀리면 false로 바뀜
-const progressState: (boolean | null)[] = Array(showQuiz.length).fill(null);
-
-// DOM 요소 가져오기
-const questionEl = document.getElementById("quiz-question"); // 문제 텍스트가 표시될 HTML 요소
-const answerObtn = document.getElementById("o-btn"); // OX 버튼요소 가져오기
-const answerXbtn = document.getElementById("x-btn"); // OX 버튼요소 가져오기
-const progressBar = document.getElementById("score"); // 진행바 컨테이너
-
-/**
- * 현재 문제를 화면에 출력하는 함수
- * - 현재 인덱스(quizIndex)에 해당 하는 문제를 표시
- */
-function showCurrentQuestion() {
-  // 현재 문제 객체
-  const currentQuiz = showQuiz[quizIndex];
-
-  // 문제를 보여줄 DOM 요소가 존재할 경우
-  // 문제 번호와 문제 내용을 텍스트로 설정
-  // ex) [문제1] typeof null의 결과는 'null'이다.
-  if (questionEl) {
-    questionEl.textContent = `[문제 ${quizIndex + 1}] ${currentQuiz.question}`; // quizIndex는 0부터 시작하므로 1번 무제를 표시해주기 위해 +1을 했고, showQuiz 배열의 객체 중 question의 값을 같이 출력
-  }
-}
-
-/**
- * 진행바 랜더링 함수 (HTML에 있는 score 하위 div 5개 사용)
- * 문제를 푼 결과에 따라 O, X 또는 회색으로 미답 표시
- */
-function renderProgressBar(): void {
-  const boxs = progressBar?.children;
-  if (!boxs) return;
-
-  progressState.forEach((status, i) => {
-    const box = boxs[i] as HTMLElement;
-    if (!box) return;
-    box.textContent = ""; // 기존 텍스트 초기화
-    box.className = "w-10 h-10 border border-gray-400 rounded-full flex items-center justify-center text-xl font-bold";
-
-    // 정답이면 파란색 O, 틀리면 빨간색 X, 아직 안 푼 문제는 회색으로 스타일링
-    if (status === true) {
-      box.textContent = "O";
-      box.classList.add("text-blue-500");
-    } else if (status === false) {
-      box.textContent = "X";
-      box.classList.add("text-red-500");
-    } else {
-      box.classList.add("bg-gray-200");
-    }
-  });
-}
-
-/**
- * 정답/오답 처리 함수
- * 문제에 따라 O가 정답일수도 있고 X가 정답일수 있으므로 해당 문제에 대한 정답일때, 오답일때 처리해줘야함
- * @param userAnswer 유저의 선택(true or false)
- */
-function handleAnswer(userAnswer: boolean): void {
-  const currentQuiz = showQuiz[quizIndex]; // 현재 문제 가져오기
-  const isCorrect = userAnswer === currentQuiz.answer; // 유저의 선택이 실제 정답과 같은지 비교
-  progressState[quizIndex] = isCorrect; // 진행 상태 배열에 정답 여부 저장 (true or false)
-
-  // 정답일 경우 경험치 1 증가
-  if (isCorrect) {
-    exPoint++;
-  }
-
-  // 다음 문제로 넘어가기 위해 quizIndex 증가
-  quizIndex++;
-
-  // 진행바 갱신
-  renderProgressBar();
-
-  if (quizIndex === showQuiz.length) {
-    getExp(exPoint); // 퀴즈 종료 후 경험치 누적 저장
-
-    // 5문제를 다 풀었다면 결과 화면을 보여주기 위한 요소를 가져옴
-    const quizGame = document.getElementById("quiz-game"); // 퀴즈 문제 화면 요소
-    const oxBtns = document.getElementById("ox-btn"); // OX 버튼을 감싸는 요소
-    const resultScreen = document.getElementById("result-screen"); // 모든 문제 정답 화면
-    const failScreen = document.getElementById("fail-screen"); // 모든 문제 오답 화면
-    const partialScreen = document.getElementById("partial-screen"); // 일부(1~4개) 화면
-    const partialResultText = document.getElementById("partial-result-text"); // n개 맞힌 텍스트
-
-    // 사용자가 모든 문제를 정답으로 맞췄는지 확인(모든 요소가 true인지 검사)
-    const allCorrect = progressState.every(state => state === true);
-
-    // 사용자가 모든 문제를 틀렸는지 확인(모든 요소가 false인지 검사)
-    const allWrong = progressState.every(state => state === false);
-
-    // 퀴즈 영역과 OX 버튼을 숨김(display: none)
-    if (quizGame) {
-      quizGame.classList.add("hidden");
-      quizGame.classList.remove("flex");
-    }
-    if (oxBtns) {
-      oxBtns.classList.add("hidden");
-      oxBtns.classList.remove("flex");
-    }
-
-    // 전부 정답일 경우 정답 화면 표시
-    if (allCorrect && resultScreen) {
-      resultScreen.classList.remove("hidden"); // hidden 제거(정답 화면 보이게 함)
-      resultScreen.classList.add("flex"); // display: flex 적용
-    }
-    // 전부 오답일 경우 오답 화면 표시
-    else if (allWrong && failScreen) {
-      failScreen.classList.remove("hidden"); // hidden 제거(틀린 화면 보이게 함)
-      failScreen.classList.add("flex"); // display: flex 적용
-    }
-    // 일부만 맞은 경우
-    else if (partialScreen && partialResultText) {
-      partialResultText.textContent = `총 ${exPoint}문제 정답입니다.`; // 정답 갯수(score)를 텍스트로 표시(ex. "총 3문제 정답입니다.")
-      partialScreen.classList.remove("hidden");
-      partialScreen.classList.add("flex");
-    }
-    return; // 결과 화면 보여주고 함수 종료
-  }
-  showCurrentQuestion(); // 퀴즈가 남아 있으면 다음 문제 표시
-}
-answerObtn?.addEventListener("click", () => handleAnswer(true)); // O 버튼 클릭 시 true 전달 (정답 처리)
-answerXbtn?.addEventListener("click", () => handleAnswer(false)); // X 버튼 클릭 시 false 전달 (정답 처리)
-
-/**
- * 로컬스토리지에 누적 경험치를 저장하는 함수
- * @param amount 이번 퀴즈에허 획득한 경험치(exPoint)
- */
-function getExp(amount: number): void {
-  const storegedExp = localStorage.getItem("exPoint") || "0"; // 기존 경험치 값을 가져온다. 없으면 기본 값 "0"
-  const currentExp = parseInt(storegedExp, 10); // 문자열로 저장된 값을 정수(10진수)로 전환
-  const updateExp = currentExp + amount; // 기본 값에 새 경험치(amount) 더함
-  localStorage.setItem("exPoint", updateExp.toString()); // 얻은 경험치는 정수형이므로 로컬스토리지에 저장하기 위해 문자열로 다시 변환
-}

@@ -1,11 +1,13 @@
 import "/src/style.css";
 
+localStorage.setItem("page", "cleaning");
+
 // 기본 요소
-const root = document.body as HTMLBodyElement;
+const cleaningWrap = document.querySelector("[data-cleaning-wrap]") as HTMLBodyElement;
 
 // 메인 게임 시작 버튼 및 돌아가기 버튼
-const gameStartBtn = document.querySelector('[data-btn="mainGameStartBtn"]') as HTMLButtonElement | null;
-const returnBtn = document.querySelector('[data-btn="mainReturnBtn"]') as HTMLButtonElement | null;
+// const gameStartBtn = document.querySelector('[data-btn="mainGameStartBtn"]') as HTMLButtonElement | null;
+// const returnBtn = document.querySelector('[data-btn="mainReturnBtn"]') as HTMLButtonElement | null;
 
 // 게임 관련 DOM
 const gameArea = document.getElementById("gameArea") as HTMLElement | null;
@@ -30,7 +32,9 @@ function increaseScore(): void {
 
   // 성공 조건 달성 시 화면 전환
   if (currentScore === maxScore) {
-    root.dataset.pageWrap = "success";
+    cleaningWrap.dataset.cleaningWrap = "success";
+
+    localStorage.setItem("trash", "off");
   }
 }
 
@@ -38,7 +42,7 @@ function increaseScore(): void {
 function checkGameEnd(): void {
   // 모든 캔이 제거됐고, 점수가 부족하면 실패 화면으로 전환 + 실패 사운드 재생
   if (removedCanCount === maxCanCount && currentScore < maxScore) {
-    root.dataset.pageWrap = "fail";
+    cleaningWrap.dataset.cleaningWrap = "fail";
 
     // // 실패 사운드 재생
     // const failSound = new Audio("/src/assets/failsound.mp3");
@@ -53,9 +57,9 @@ function createFallingCan(): void {
   if (!gameArea) return;
 
   const canImage = document.createElement("img");
-  canImage.src = "img/redbull.svg"; // 캔 이미지 경로
-  canImage.width = 60;
-  canImage.height = 161;
+  canImage.src = "/public/assets/images/cleaning_redbull.svg"; // 캔 이미지 경로
+  canImage.width = 40;
+  canImage.height = 160;
   canImage.style.cursor = "pointer";
   canImage.style.position = "absolute";
   canImage.style.zIndex = "10";
@@ -95,42 +99,67 @@ function createFallingCan(): void {
         checkGameEnd();
       }
     }
-  }, 5);
+  }, 10);
 }
 
 // 게임 시작 이벤트 등록
-gameStartBtn?.addEventListener("click", () => {
-  // 게임 화면으로 전환
-  root.dataset.pageWrap = "game";
+// gameStartBtn?.addEventListener("click", () => {
+//   // 게임 화면으로 전환
+//   cleaningWrap.dataset.cleaningWrap = "game";
 
-  // 일정 간격으로 캔 생성
-  const spawnInterval = setInterval(() => {
-    if (spawnedCanCount < maxCanCount) {
-      createFallingCan();
-      spawnedCanCount++;
-    } else {
-      clearInterval(spawnInterval);
-    }
-  }, spawnIntervalMs);
-});
+//   // 일정 간격으로 캔 생성
+//   const spawnInterval = setInterval(() => {
+//     if (spawnedCanCount < maxCanCount) {
+//       createFallingCan();
+//       spawnedCanCount++;
+//     } else {
+//       clearInterval(spawnInterval);
+//     }
+//   }, spawnIntervalMs);
+// });
 
 // cleaning main 화면에서 main 폴더의 index로 돌아가기 버튼
-returnBtn?.addEventListener("click", () => {
-  window.location.href = "/src/pages/main/index.html";
-});
+// returnBtn?.addEventListener("click", () => {
+//   window.location.href = "/src/pages/main/index.html";
+// });
 
-// 공통 return-btn (data-href 기반 이동 또는 pageWrap 제어)
-document.querySelectorAll<HTMLButtonElement>(".return-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const targetUrl = btn.getAttribute("data-href"); // 외부 링크 이동
-    const action = btn.getAttribute("data-action"); // 내부 페이지 전환
+// 공통 return-btn (data-href 기반 이동 또는 cleaningWrap 제어)
+// document.querySelectorAll<HTMLButtonElement>(".return-btn").forEach(btn => {
+//   btn.addEventListener("click", () => {
+//     const targetUrl = btn.getAttribute("data-href"); // 외부 링크 이동
+//     const action = btn.getAttribute("data-action"); // 내부 페이지 전환
 
-    if (targetUrl) {
-      window.location.href = targetUrl;
-    } else if (action === "success") {
-      root.dataset.pageWrap = "index-main";
-    } else if (action === "fail") {
-      root.dataset.pageWrap = "cleaing-main";
+//     if (targetUrl) {
+//       window.location.href = targetUrl;
+//     } else if (action === "success") {
+//       cleaningWrap.dataset.cleaningWrap = "index-main";
+//     } else if (action === "fail") {
+//       cleaningWrap.dataset.cleaningWrap = "cleaing-main";
+//     }
+//   });
+// });
+
+const cleaningButtons = cleaningWrap.querySelectorAll("[data-btn]");
+for (const button of cleaningButtons) {
+  button.addEventListener("click", event => {
+    const target = event.currentTarget as HTMLElement;
+    const btn = target.dataset.btn as string;
+
+    if (btn === "cleaning_start") {
+      cleaningWrap.dataset.cleaningWrap = "play";
+
+      // 일정 간격으로 캔 생성
+      const spawnInterval = setInterval(() => {
+        if (spawnedCanCount < maxCanCount) {
+          createFallingCan();
+          spawnedCanCount++;
+        } else {
+          clearInterval(spawnInterval);
+        }
+      }, spawnIntervalMs);
+    } else if (btn === "back_main") {
+      localStorage.setItem("page", "play");
+      window.location.href = "../main/index.html";
     }
   });
-});
+}

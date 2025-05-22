@@ -5,6 +5,8 @@ let gaugeValue = 0; // 게이지 값
 let isGameActive = false; // 초기 게임 상태 값
 const healthExp = 2; // 경험치 값
 
+localStorage.setItem("page", "health");
+
 // 경험치 추가 함수
 function addHealthExp() {
   const currentExp: number = parseInt(localStorage.getItem("exPoint") || "0") || 0;
@@ -24,7 +26,7 @@ function countdown() {
 
   // TODO 1초 느리게 뜨는 이유 찾기
   // 게임 시작 시 초기 카운트 값 설정 ( 언제든지 수정 가능 )
-  let count = 10;
+  let count = 20;
   isGameActive = true; // 시작 되었을 때 값
   time.textContent = `${count}s`;
 
@@ -44,19 +46,19 @@ function countdown() {
 }
 
 // 인 게임 페이지로 이동 시키는 함수
-function startBtn() {
-  const startBtn = document.querySelector("#startBtn");
-  const healthWrapper = document.querySelector("[data-health-wrap]");
+// function startBtn() {
+//   const startBtn = document.querySelector("#startBtn");
+//   const healthWrapper = document.querySelector("[data-health-wrap]");
 
-  startBtn?.addEventListener("click", () => {
-    if (healthWrapper instanceof HTMLElement) {
-      healthWrapper.setAttribute("data-health-wrap", "play");
-    }
-    countdown();
-  });
-}
+//   startBtn?.addEventListener("click", () => {
+//     if (healthWrapper instanceof HTMLElement) {
+//       healthWrapper.setAttribute("data-health-wrap", "play");
+//     }
+//     countdown();
+//   });
+// }
 
-startBtn();
+// startBtn();
 
 /**
  * 게이지 달성 값에 따른 결과 페이지로 이동하는 함수
@@ -167,3 +169,20 @@ function spacebarEvent() {
   });
 }
 spacebarEvent();
+
+const healthWrap = document.querySelector("[data-health-wrap]") as HTMLElement;
+const healthButtons = healthWrap.querySelectorAll("[data-btn]");
+for (const button of healthButtons) {
+  button.addEventListener("click", event => {
+    const target = event.currentTarget as HTMLElement;
+    const btn = target.dataset.btn as string;
+
+    if (btn === "health_start") {
+      healthWrap.dataset.healthWrap = "play";
+      countdown();
+    } else if (btn === "back_main") {
+      localStorage.setItem("page", "play");
+      window.location.href = "../main/index.html";
+    }
+  });
+}

@@ -1,87 +1,89 @@
 <!doctype html>
-
 <html lang="ko-KR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>메인</title>
+    <title>청소하기</title>
     <link rel="stylesheet" href="../../style.css" />
     <script type="module" src="/src/pages/cleaning/cleaning.ts"></script>
+  </head>
+  <body>
     <style>
-      /* 모든 section 숨김 */
-      [data-page] {
+      [data-cleaning-wrap] [data-cleaning] {
         display: none;
       }
 
-      /* 현재 보여줄 section은 body에 data-page-wrap 값 기준으로 */
-      body[data-page-wrap="main"] [data-page="main"],
-      body[data-page-wrap="game"] [data-page="game"],
-      body[data-page-wrap="success"] [data-page="success"],
-      body[data-page-wrap="fail"] [data-page="fail"] {
+      [data-cleaning-wrap="intro"] [data-cleaning="intro"],
+      [data-cleaning-wrap="play"] [data-cleaning="play"],
+      [data-cleaning-wrap="success"] [data-cleaning="success"],
+      [data-cleaning-wrap="fail"] [data-cleaning="fail"] {
         display: block;
       }
     </style>
-  </head>
-
-  <body data-page-wrap="main">
-    <section data-page="main" class="mdev_layout">
-      <div class="mdev_layout_top">
-        <h1 class="mdev_layout_title">청소하기</h1>
-      </div>
-
-      <div class="mdev_layout_center relative">
-        <img src="/public/assets/images/cleaning_intro.svg" width="100%" alt="청소하는 사람" />
-      </div>
-
-      <div class="mdev_layout_bottom">
-        <button data-btn="mainReturnBtn">돌아가기</button>
-        <button data-btn="mainGameStartBtn">GAME START</button>
-      </div>
-    </section>
-    <section data-page="game" class="mdev_layout">
-      <div class="mdev_layout_top">
-        <h1 class="mdev_layout_title">청소하기</h1>
-        <div class="text-[0px]">
-          <span id="score" class="inline-block mr-[1vw] align-middle text-[4vw] font-bold" style="font-family: var(--font-sans)">0/10</span>
+    <div data-cleaning-wrap="intro" class="mdev_layout">
+      <section data-cleaning="intro" class="mdev_layout_inner">
+        <div class="mdev_layout_top">
+          <h1 class="mdev_layout_title">청소하기</h1>
         </div>
-      </div>
 
-      <div class="mdev_layout_center relative">
-        <div id="gameArea" class="relative h-[740px] rounded-md shadow-md mdev_border overflow-hidden bg-[var(--color-mdev-white)]"></div>
-      </div>
+        <div class="mdev_layout_center relative">
+          <img src="/public/assets/images/cleaning_intro.svg" width="100%" alt="청소하는 사람" />
+        </div>
 
-      <div class="mdev_layout_bottom"></div>
-    </section>
-    <section data-page="success" class="mdev_layout">
-      <div class="mdev_layout_top">
-        <h1 class="mdev_layout_title">청소하기</h1>
-      </div>
+        <div class="mdev_layout_bottom">
+          <button type="button" data-btn="back_main">돌아가기</button>
+          <button type="button" data-btn="cleaning_start">GAME START</button>
+        </div>
+      </section>
 
-      <div class="mdev_layout_center relative">
-        <div class="font-bold text-80">END</div>
-        <div class="font-bold text-mdev-success text-60">청소 완료</div>
-        <div class="font-bold text-mdev-gray-a text-40" style="letter-spacing: -0.05em">방이 깨끗해졌어요.</div>
-      </div>
+      <section data-cleaning="play" class="mdev_layout_inner">
+        <div class="mdev_layout_top">
+          <h1 class="mdev_layout_title">청소하기</h1>
+          <div class="text-[0px]">
+            <span id="score" class="inline-block mr-[1vw] align-middle text-[4vw] font-bold" style="font-family: var(--font-sans)">0/10</span>
+          </div>
+        </div>
 
-      <div class="mdev_layout_bottom">
-        <button data-btn="mainReturnBtn" class="return-btn" data-href="/public/pages/main/index.html">돌아가기</button>
-      </div>
-    </section>
+        <div class="mdev_layout_center relative">
+          <div id="gameArea" class="relative h-full overflow-hidden"></div>
+        </div>
 
-    <section data-page="fail" class="mdev_layout">
-      <div class="mdev_layout_top">
-        <h1 class="mdev_layout_title">청소하기</h1>
-      </div>
+        <div class="mdev_layout_bottom"></div>
+      </section>
 
-      <div class="mdev_layout_center relative">
-        <div class="font-bold" style="font-size: var(--text-80)">END</div>
-        <div class="font-bold text-mdev-fail" style="font-size: var(--text-60)">청소 실패</div>
-        <div class="font-bold text-mdev-gray-a" style="font-size: var(--text-30); letter-spacing: -0.05em">10개 모두 제거하지 못했어요ㅠㅠ 다시 청소해주세요.</div>
-      </div>
+      <!-- 성공시 -->
+      <section data-cleaning="success" class="mdev_layout_inner">
+        <div class="mdev_layout_top">
+          <h1 class="mdev_layout_title">청소하기</h1>
+        </div>
 
-      <div class="mdev_layout_bottom">
-        <button data-btn="mainReturnBtn" class="return-btn" data-href="/public/pages/cleaning/index.html">돌아가기</button>
-      </div>
-    </section>
+        <div class="mdev_layout_center flex items-center justify-center flex-col text-center">
+          <div class="text-80 font-[900]">END</div>
+          <div class="text-60 mt-[2%] text-mdev-green font-bold">청소 완료</div>
+          <div class="text-30 mt-[1%] text-mdev-gray-a">방이 깨끗해졌어요.</div>
+        </div>
+
+        <div class="mdev_layout_bottom">
+          <button type="button" data-btn="back_main">돌아가기</button>
+        </div>
+      </section>
+
+      <!-- 실패시 -->
+      <section data-cleaning="fail" class="mdev_layout_inner">
+        <div class="mdev_layout_top">
+          <h1 class="mdev_layout_title">청소하기</h1>
+        </div>
+
+        <div class="mdev_layout_center flex items-center justify-center flex-col text-center">
+          <div class="text-80 font-[900]">END</div>
+          <div class="text-60 mt-[2%] text-mdev-fail font-bold">청소 실패</div>
+          <div class="text-30 mt-[1%] text-mdev-gray-a">10개 모두 제거하지 못했어요ㅠㅠ 다시 청소해주세요.</div>
+        </div>
+
+        <div class="mdev_layout_bottom">
+          <button type="button" data-btn="back_main">돌아가기</button>
+        </div>
+      </section>
+    </div>
   </body>
 </html>

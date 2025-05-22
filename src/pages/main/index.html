@@ -7,15 +7,17 @@
     <script type="module" src="/src/pages/main/main.js"></script>
   </head>
   <body>
-    <div data-page-wrap="intro" class="font-sans">
+    <mark id="reset" class="fixed top-0 left-0">초기화</mark>
+
+    <div data-page-wrap="intro" class="mdev_layout">
       <!-- intro -->
-      <section data-page="intro" class="mdev_layout">
+      <section data-page="intro" class="mdev_layout_inner">
         <div class="mdev_layout_top">
           <h1 class="mdev_layout_title">개발자 키우기</h1>
         </div>
 
         <div class="mdev_layout_center">
-          <svg width="100%" viewBox="0 0 900 740" fill="none">
+          <svg width="100%" height="100%" viewBox="0 0 900 740" fill="none">
             <path d="M254.001 304C278.801 283.2 295.5 282 302.001 283.5C289.66 297.434 284.053 312.854 282.028 318.422L282 318.5C276 322.5 267.333 324.666 263.5 325C259.667 325.5 251.101 325.3 247.501 320.5C243.901 315.7 250.334 307.5 254.001 304Z" fill="black" stroke="black" stroke-width="3" />
             <path d="M289.502 202C285.102 237.6 291.335 270.833 295.002 283H302C354.8 249.4 426 250.5 456 257.5C453.6 231.1 444 193.333 439.5 177.5C373.9 154.7 312.168 184.333 289.502 202Z" fill="black" stroke="black" stroke-width="3" />
             <path d="M433.998 254.5C369.598 248.1 319.165 271.167 301.998 283.5C282.398 305.5 279.583 328.461 278.998 338C277.496 362.5 287.298 414.4 352.498 428C417.698 441.6 463.331 417.333 477.998 403.5C492.665 389.333 517.598 347.5 499.998 293.5C486.398 262.7 450.331 254.667 433.998 254.5Z" fill="white" stroke="black" stroke-width="3" />
@@ -49,100 +51,104 @@
         </div>
 
         <div class="mdev_layout_bottom mdev_right">
-          <!-- <a href="/src/pages/main/index.html" id="start_btn" class="mdev_button">GAME START</a> -->
           <span data-btn="start">GAME START</span>
         </div>
       </section>
 
       <!-- play -->
-      <section data-page="play" class="mdev_layout">
+      <section data-page="play" class="mdev_layout_inner">
         <div class="mdev_layout_top">
           <h1 class="mdev_layout_title"></h1>
-          <div class="text-[0px]">
-            <span class="inline-block mr-[1vw] align-middle text-[4vw] font-bold">HP</span>
-            <span class="hp_bar mdev_border inline-block w-[30vw] h-[4vw] align-middle bg-mdev-gray-e">
+          <div class="text-[0px] w-[45%]">
+            <span class="inline-block w-[9vw] pr-[10px] align-middle text-40 font-bold max-w-[40px] box-border">HP</span>
+            <span class="hp_bar mdev_border inline-block w-[calc(100%-9vw)] min-w-[calc(100%-40px)] h-[20px] align-middle bg-mdev-gray-e">
               <span class="bg-mdev-green inline-block h-full text-[0px]">체력바</span>
             </span>
           </div>
         </div>
 
         <div data-play-wrap="hasu" class="mdev_layout_center relative">
-          <img data-play="hasu" class="w-full" src="/public/assets/images/main_hasu.svg" alt="main_hasu" />
-          <img data-play="joongsu" class="w-full" src="/public/assets/images/main_joongsu.svg" alt="main_joongsu" />
-          <img data-play="gosu" class="w-full" src="/public/assets/images/main_gosu.svg" alt="main_gosu" />
-          <img id="main_trash" class="w-full absolute bottom-0" hidden src="/public/assets/images/main_trash.png" alt="main_trash" />
+          <img data-play="hasu" class="w-full h-full" src="/public/assets/images/main_hasu.svg" alt="main_hasu" />
+          <img data-play="joongsu" class="w-full h-full" src="/public/assets/images/main_joongsu.svg" alt="main_joongsu" />
+          <img data-play="gosu" class="w-full h-full" src="/public/assets/images/main_gosu.svg" alt="main_gosu" />
+          <img id="main_trash" class="w-full h-full absolute bottom-0" hidden src="/public/assets/images/main_trash.png" alt="main_trash" />
         </div>
 
         <div class="mdev_layout_bottom">
-          <button data-btn="eat">밥먹기</button>
-          <button data-btn="sleep">잠자기</button>
-          <button data-btn="study">공부하기</button>
-          <button data-btn="health">운동하기</button>
-          <button data-btn="cleaning">청소하기</button>
+          <button type="button" data-btn="eat">밥먹기</button>
+          <button type="button" data-btn="sleep">잠자기</button>
+          <button type="button" data-btn="study">공부하기</button>
+          <button type="button" data-btn="health">운동하기</button>
+          <button type="button" data-btn="cleaning">청소하기</button>
         </div>
       </section>
 
       <!-- eat -->
-      <section data-page="eat" class="mdev_layout">
+      <section data-page="eat" class="mdev_layout_inner">
         <div class="mdev_layout_top">
           <h1 class="mdev_layout_title">밥먹기</h1>
-          <div class="text-[0px]">
-            <span class="inline-block mr-[1vw] align-middle text-[4vw] font-bold">HP</span>
-            <span class="hp_bar mdev_border inline-block w-[30vw] h-[4vw] align-middle bg-mdev-gray-e">
+          <div class="text-[0px] w-[45%]">
+            <span class="inline-block w-[9vw] pr-[10px] align-middle text-40 font-bold max-w-[40px] box-border">HP</span>
+            <span class="hp_bar mdev_border inline-block w-[calc(100%-9vw)] min-w-[calc(100%-40px)] h-[20px] align-middle bg-mdev-gray-e">
               <span class="bg-mdev-green inline-block h-full text-[0px]">체력바</span>
             </span>
           </div>
         </div>
 
-        <div data-eat-wrap="food_sel" class="mdev_layout_center h-[75.715vw]">
-          <p class="flex items-center justify-center h-[28.46vw] pt-[10vw] text-40 font-bold">음식을 선택해주세요!</p>
+        <div data-food-wrap="food_sel" class="mdev_layout_center">
+          <p class="flex items-center justify-center pt-[10%] h-[40%] text-40 font-bold">음식을 선택해주세요!</p>
           <ul class="flex items-center justify-center gap-[2vw]">
-            <li data-eat="drink" class="mdev_border mdev_radius flex flex-col items-center py-[3vw] px-[2.5vw] cursor-pointer hover:border-mdev-green hover:text-mdev-green">
-              <img class="w-[18vw]" src="/public/assets/images/food_drink.png" alt="에너지 음료" />
-              <span class="text-40 font-bold leading-none mt-[2vw]">에너지 음료</span>
+            <li data-food="drink" class="mdev_border mdev_radius flex flex-col items-center py-[3%] px-[2.5%] w-[25%] cursor-pointer hover:border-mdev-green hover:text-mdev-green">
+              <img class="w-[80%]" src="/public/assets/images/food_drink.png" alt="에너지 음료" />
+              <span class="text-30 font-bold leading-none mt-[10%]">에너지 음료</span>
             </li>
-            <li data-eat="hamburger" class="mdev_border mdev_radius flex flex-col items-center py-[3vw] px-[2.5vw] cursor-pointer hover:border-mdev-green hover:text-mdev-green">
-              <img class="w-[18vw]" src="/public/assets/images/food_hamburger.png" alt="햄버거" />
-              <span class="text-40 font-bold leading-none mt-[2vw]">햄버거</span>
+            <li data-food="hamburger" class="mdev_border mdev_radius flex flex-col items-center py-[3%] px-[2.5%] w-[25%] cursor-pointer hover:border-mdev-green hover:text-mdev-green">
+              <img class="w-[80%]" src="/public/assets/images/food_hamburger.png" alt="햄버거" />
+              <span class="text-30 font-bold leading-none mt-[10%]">햄버거</span>
             </li>
-            <li data-eat="piza" class="mdev_border mdev_radius flex flex-col items-center py-[3vw] px-[2.5vw] cursor-pointer hover:border-mdev-green hover:text-mdev-green">
-              <img class="w-[18vw]" src="/public/assets/images/food_piza.png" alt="피자" />
-              <span class="text-40 font-bold leading-none mt-[2vw]">피자</span>
+            <li data-food="piza" class="mdev_border mdev_radius flex flex-col items-center py-[3%] px-[2.5%] w-[25%] cursor-pointer hover:border-mdev-green hover:text-mdev-green">
+              <img class="w-[80%]" src="/public/assets/images/food_piza.png" alt="피자" />
+              <span class="text-30 font-bold leading-none mt-[10%]">피자</span>
             </li>
           </ul>
         </div>
 
         <div class="mdev_layout_bottom">
-          <button data-btn="eat_back">돌아가기</button>
+          <button type="button" data-btn="eat_back">돌아가기</button>
         </div>
       </section>
 
       <!-- eat-result -->
-      <section data-page="eat_result" class="mdev_layout">
+      <section data-page="eat_result" class="mdev_layout_inner">
         <div class="mdev_layout_top">
           <h1 class="mdev_layout_title">밥먹기</h1>
-          <div class="text-[0px]">
-            <span class="inline-block mr-[1vw] align-middle text-[4vw] font-bold">HP</span>
-            <span class="hp_bar mdev_border inline-block w-[30vw] h-[4vw] align-middle bg-mdev-gray-e">
+          <div class="text-[0px] w-[45%]">
+            <span class="inline-block w-[9vw] pr-[10px] align-middle text-40 font-bold max-w-[40px] box-border">HP</span>
+            <span class="hp_bar mdev_border inline-block w-[calc(100%-9vw)] min-w-[calc(100%-40px)] h-[20px] align-middle bg-mdev-gray-e">
               <span class="bg-mdev-green inline-block h-full text-[0px]">체력바</span>
             </span>
           </div>
         </div>
 
-        <div data-eat-wrap="food_result" class="mdev_layout_center h-[75.715vw]">
-          <img src="/public/assets/images/food_result.svg" alt="food result" />
+        <div class="mdev_layout_center relative">
+          <img class="w-full h-full" src="/public/assets/images/food_result.svg" alt="food result" />
+          <div data-eat-wrap="drink" class="absolute top-[58%] left-[46%] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center">
+            <img data-eat="drink" class="w-[40%]" src="/public/assets/images/food_drink.png" alt="에너지 음료" />
+            <img data-eat="hamburger" class="w-[40%]" src="/public/assets/images/food_hamburger.png" alt="햄버거" />
+            <img data-eat="piza" class="w-[40%]" src="/public/assets/images/food_piza.png" alt="피자" />
+          </div>
         </div>
 
         <div class="mdev_layout_bottom"></div>
       </section>
 
       <!-- sleep -->
-      <section data-page="sleep" class="mdev_layout">
+      <section data-page="sleep" class="mdev_layout_inner">
         <div class="mdev_layout_top">
           <h1 class="mdev_layout_title">잠자기</h1>
-          <div class="text-[0px]">
-            <span class="inline-block mr-[1vw] align-middle text-[4vw] font-bold">HP</span>
-            <span class="hp_bar mdev_border inline-block w-[30vw] h-[4vw] align-middle bg-mdev-gray-e">
+          <div class="text-[0px] w-[45%]">
+            <span class="inline-block w-[9vw] pr-[10px] align-middle text-40 font-bold max-w-[40px] box-border">HP</span>
+            <span class="hp_bar mdev_border inline-block w-[calc(100%-9vw)] min-w-[calc(100%-40px)] h-[20px] align-middle bg-mdev-gray-e">
               <span class="bg-mdev-green inline-block h-full text-[0px]">체력바</span>
             </span>
           </div>
@@ -155,24 +161,24 @@
         </div>
 
         <div class="mdev_layout_bottom">
-          <button data-btn="wakeup">일어나기</button>
+          <button type="button" data-btn="wakeup">일어나기</button>
         </div>
       </section>
 
       <!-- dying -->
-      <section data-page="dying" class="mdev_layout">
+      <section data-page="dying" class="mdev_layout_inner">
         <div class="mdev_layout_top">
           <h1 class="mdev_layout_title"></h1>
-          <div class="text-[0px]">
-            <span class="inline-block mr-[1vw] align-middle text-[4vw] font-bold">HP</span>
-            <span class="hp_bar mdev_border inline-block w-[30vw] h-[4vw] align-middle bg-mdev-gray-e">
+          <div class="text-[0px] w-[45%]">
+            <span class="inline-block w-[9vw] pr-[10px] align-middle text-40 font-bold max-w-[40px] box-border">HP</span>
+            <span class="hp_bar mdev_border inline-block w-[calc(100%-9vw)] min-w-[calc(100%-40px)] h-[20px] align-middle bg-mdev-gray-e">
               <span class="bg-mdev-green inline-block h-full text-[0px]">체력바</span>
             </span>
           </div>
         </div>
 
         <div data-dying-wrap="dying" class="mdev_layout_center">
-          <img data-dying="dying" class="" src="/public/assets/images/dying.svg" alt="dying" />
+          <img data-dying="dying" class="" src="/public/assets/images/main_dying.svg" alt="dying" />
         </div>
 
         <div class="mdev_layout_bottom mdev_right">
@@ -181,7 +187,7 @@
       </section>
 
       <!-- ending -->
-      <section data-page="ending" class="mdev_layout">
+      <section data-page="ending" class="mdev_layout_inner">
         <div data-ending="ending">개발자 취업됨</div>
       </section>
     </div>

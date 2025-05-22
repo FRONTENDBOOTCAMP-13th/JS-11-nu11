@@ -1,11 +1,79 @@
 <!doctype html>
-<html lang="ko-KR">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
+    <!-- 화면 크기에 따라 초기 배율 설정 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>index</title>
+    <title>팀원 소개 및 프로젝트</title>
+    <!-- Vite가 번들링한 main.ts 모듈 로드 -->
+    <script type="module" src="/src/assets/js/introduce.ts"></script>
   </head>
-  <body>
-    <a href="/src/pages/main/index.html">게임화면으로 이동</a>
+  <body class="bg-gray-100 p-6 space-y-12">
+    <!-- 1. 모바일 전용 팀원 리스트 (md 이상 화면에서 숨김) -->
+    <section class="md:hidden">
+      <h2 class="text-lg font-semibold mb-4 border-b border-black pb-1">팀원소개</h2>
+      <div id="mobile-member-list" class="bg-white rounded-lg p-4 space-y-4">
+        <!-- main.ts가 teamMembers 배열을 순회하며 카드 생성 -->
+      </div>
+    </section>
+
+    <!-- 2. 데스크탑 전용 팀원 슬라이드 (md 미만 화면에서 숨김) -->
+    <section class="hidden md:block">
+      <h2 class="text-lg font-semibold mb-4 border-b border-black pb-1">팀원소개</h2>
+      <div id="member-slide" class="bg-white p-6 rounded-lg flex flex-wrap md:flex-nowrap items-center justify-center gap-6">
+        <div id="member-image" class="w-48 h-48 bg-white rounded-full flex items-center justify-center">이미지</div>
+        <div id="member-info" class="text-black text-sm space-y-2">
+          <!-- main.ts가 innerHTML로 이름, 역할, 코멘트 삽입 -->
+        </div>
+      </div>
+      <div class="flex justify-center gap-6 mt-4">
+        <button id="prev-btn" class="w-10 h-10 border-2 rounded-full hover:text-blue-500 transition-colors">‹</button>
+        <button id="next-btn" class="w-10 h-10 border-2 rounded-full hover:text-blue-500 transition-colors">›</button>
+      </div>
+    </section>
+
+    <!-- 3. 프로젝트 소개 섹션 -->
+    <section class="w-full">
+      <h2 class="text-lg md:text-2xl font-semibold mb-4 border-b border-black pb-1">프로젝트 소개</h2>
+      <div class="bg-white rounded-lg p-4 md:p-6 flex flex-col items-center gap-6">
+        <!-- 3-1. 폴더 구조 + 호버 미리보기 -->
+        <div class="w-full flex justify-center gap-4 relative">
+          <!-- 폴더 트리: leading-relaxed로 줄간격 확보, w-2/3로 너비 고정 -->
+          <pre id="folder-tree" class="bg-black text-white font-mono text-sm leading-relaxed p-4 rounded-lg whitespace-pre-wrap overflow-auto flex-shrink-0 w-2/3">
+📁 project-root
+├── 📁 public
+│   ├── 📁 assets
+│   ├──── 📁 images ──── # 게임에 필요한 이미지 및 사운드
+├── 📁 pages        ──── # 프로젝트 폴더
+    ├── 📁 cleaning ──── # 청소하기
+    │     ├──    <span class="hover-file hover:text-yellow-400 cursor-pointer" data-file="cleaning/index.html">📄 index.html</span>
+    │     ├──    📜 cleaning.ts
+    │     └──    🎨 style.css
+    ├── 📁 health   ──── # 운동하기
+    │     ├──    <span class="hover-file hover:text-yellow-400 cursor-pointer" data-file="health/index.html">📄 index.html</span>
+    │     ├──    📜 health.ts
+    │     └──    🎨 style.css
+    ├── 📁 main     ──── # 게임 메인
+    │     ├──    <span class="hover-file hover:text-yellow-400 cursor-pointer" data-file="main/index.html">📄 index.html</span>
+    │     ├──    📜 main.js
+    │     ├──    📜 main.ts
+    │     └──    🎨 style.css
+    └── 📁 study    ──── # 공부하기
+          ├──    <span class="hover-file hover:text-yellow-400 cursor-pointer" data-file="study/index.html">📄 index.html</span>
+          ├──    📜 study.ts
+          └──    🎨 style.css
+
+          </pre>
+
+          <!-- 파일 호버 시 표시할 이미지 컨테이너 -->
+          <div id="file-preview" class="absolute top-0 right-0 w-1/3 h-full bg-gray-50 border rounded-lg overflow-auto opacity-0 pointer-events-none transition-opacity duration-200">
+            <!-- main.ts에서 <img> 요소를 동적으로 추가 -->
+          </div>
+        </div>
+
+        <!-- 3-2. START 버튼 -->
+        <button id="game-start-btn" class="px-4 py-2 border-2 rounded hover:bg-gray-400 transition">GAME START</button>
+      </div>
+    </section>
   </body>
 </html>

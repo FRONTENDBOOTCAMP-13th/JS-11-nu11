@@ -71,7 +71,7 @@
           <img data-play="hasu" class="w-full h-full" src="/public/assets/images/main_hasu.svg" alt="main_hasu" />
           <img data-play="joongsu" class="w-full h-full" src="/public/assets/images/main_joongsu.svg" alt="main_joongsu" />
           <img data-play="gosu" class="w-full h-full" src="/public/assets/images/main_gosu.svg" alt="main_gosu" />
-          <img id="main_trash" class="w-full h-full absolute bottom-0" hidden src="/public/assets/images/main_trash.png" alt="main_trash" />
+          <img id="main_trash" class="hidden w-full h-full absolute bottom-0" src="/public/assets/images/main_trash.png" alt="main_trash" />
         </div>
 
         <div class="mdev_layout_bottom">
@@ -188,7 +188,18 @@
 
       <!-- ending -->
       <section data-page="ending" class="mdev_layout_inner">
-        <div data-ending="ending">개발자 취업됨</div>
+        <div class="mdev_layout_top">
+          <h1 class="mdev_layout_title">Ending</h1>
+        </div>
+
+        <div data-ending="ending" class="mdev_layout_center relative">
+          <p class="text-40 font-bold text-mdev-black absolute top-[7%] left-[50%] translate-x-[-50%] w-full text-center">축하합니다! 개발자가 되었습니다.</p>
+          <img data-dying="dying" class="" src="/public/assets/images/ending.jpg" alt="ending" />
+        </div>
+
+        <div class="mdev_layout_bottom mdev_right">
+          <span data-btn="restart">GAME RESTART</span>
+        </div>
       </section>
     </div>
   </body>

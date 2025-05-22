@@ -16,6 +16,7 @@ const maxCanCount = 10; // 최대 캔 개수
 const spawnIntervalMs = 600; // 캔 생성 간격 (밀리초)
 let removedCanCount = 0; // 사라진 캔 개수 (클릭 or 바닥 도달)
 // 점수 증가 함수
+const successSound = new Audio("/assets/sounds/success.mp3");
 function increaseScore() {
     if (!scoreDisplay)
         return;
@@ -27,18 +28,25 @@ function increaseScore() {
     if (currentScore === maxScore) {
         cleaningWrap.dataset.cleaningWrap = "success";
         localStorage.setItem("trash", "off");
+        successSound.currentTime = 0;
+        successSound.volume = 1;
+        successSound.play().catch(error => {
+            console.error("사운드 재생 실패:", error);
+        });
     }
 }
 // 게임 종료 확인
+const failSound = new Audio("/assets/sounds/cleaning_fail.mp3");
 function checkGameEnd() {
     // 모든 캔이 제거됐고, 점수가 부족하면 실패 화면으로 전환 + 실패 사운드 재생
     if (removedCanCount === maxCanCount && currentScore < maxScore) {
         cleaningWrap.dataset.cleaningWrap = "fail";
-        // // 실패 사운드 재생
-        // const failSound = new Audio("/src/assets/failsound.mp3");
-        // failSound.play().catch(err => {
-        //   console.error("오디오 재생 실패:", err);
-        // });
+        //실패 사운드 재생
+        failSound.currentTime = 0;
+        failSound.volume = 1;
+        failSound.play().catch(error => {
+            console.error("사운드 재생 실패:", error);
+        });
     }
 }
 // 캔 생성 함수
@@ -46,7 +54,7 @@ function createFallingCan() {
     if (!gameArea)
         return;
     const canImage = document.createElement("img");
-    canImage.src = "/public/assets/images/cleaning_redbull.svg"; // 캔 이미지 경로
+    canImage.src = "/assets/images/cleaning_redbull.svg"; // 캔 이미지 경로
     canImage.width = 40;
     canImage.height = 160;
     canImage.style.cursor = "pointer";

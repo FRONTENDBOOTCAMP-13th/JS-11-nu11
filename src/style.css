@@ -11,7 +11,7 @@
   --text-80: min(5.5vw, 35px);
 
   /* border */
-  --border-mdev: 0.3px;
+  --border-mdev: 2px;
 
   /* color */
   --color-hot-brand: #ed0804;
@@ -99,7 +99,7 @@
     align-items: center;
     padding: 3% 2%;
     border: var(--border-mdev) solid var(--color-mdev-black);
-    border-radius: 1vw;
+    border-radius: 5px;
     background-color: var(--color-mdev-white);
     color: var(--color-mdev-black);
     font-size: var(--text-40);
@@ -120,7 +120,7 @@
   }
 
   .mdev_radius {
-    border-radius: 1vw;
+    border-radius: 5px;
   }
 
   /* layout */

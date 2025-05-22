@@ -150,21 +150,38 @@ document.addEventListener("DOMContentLoaded", () => {
             //   oxBtns.classList.add("hidden");
             //   oxBtns.classList.remove("flex");
             // }
+            const successSound = new Audio("/assets/sounds/success.mp3");
+            const failSound = new Audio("/assets/sounds/study_fail.mp3");
             // 전부 정답일 경우 정답 화면 표시
             if (allCorrect) {
                 studyWrap.dataset.studyWrap = "end";
                 studyEndWrap.dataset.studyEndWrap = "end_success";
+                successSound.currentTime = 0;
+                successSound.volume = 1;
+                successSound.play().catch(error => {
+                    console.error("사운드 재생 실패:", error);
+                });
             }
             // 전부 오답일 경우 오답 화면 표시
             else if (allWrong) {
                 studyWrap.dataset.studyWrap = "end";
                 studyEndWrap.dataset.studyEndWrap = "end_fail";
+                failSound.currentTime = 0;
+                failSound.volume = 1;
+                failSound.play().catch(error => {
+                    console.error("사운드 재생 실패:", error);
+                });
             }
             // 일부만 맞은 경우
             else if (partialResultText) {
                 studyWrap.dataset.studyWrap = "end";
                 studyEndWrap.dataset.studyEndWrap = "end_partial";
                 partialResultText.textContent = `총 ${successCnt}문제 정답입니다.`; // 정답 갯수(score)를 텍스트로 표시(ex. "총 3문제 정답입니다.")
+                successSound.currentTime = 0;
+                successSound.volume = 1;
+                successSound.play().catch(error => {
+                    console.error("사운드 재생 실패:", error);
+                });
             }
             return; // 결과 화면 보여주고 함수 종료
         }

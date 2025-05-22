@@ -1,5 +1,8 @@
 import "/src/style.css";
 
+const successSound = new Audio("/assets/sounds/success.mp3");
+const failSound = new Audio("/assets/sounds/health_fail.mp3");
+
 const maxGaugeValue = 63; // 게임 난이도 조절 값
 let gaugeValue = 0; // 게이지 값
 let isGameActive = false; // 초기 게임 상태 값
@@ -15,6 +18,7 @@ function addHealthExp() {
 }
 
 // 카운트다운 함수
+let startCountDown: number | null = null;
 function countdown() {
   const time = document.querySelector("[data-health='play'] .time");
 
@@ -26,11 +30,11 @@ function countdown() {
 
   // TODO 1초 느리게 뜨는 이유 찾기
   // 게임 시작 시 초기 카운트 값 설정 ( 언제든지 수정 가능 )
-  let count = 10;
+  let count = 20;
   isGameActive = true; // 시작 되었을 때 값
   time.textContent = `${count}s`;
 
-  const startCountDown = setInterval(() => {
+  startCountDown = setInterval(() => {
     count--;
 
     // 화면에 남은 시간 표시
@@ -39,7 +43,9 @@ function countdown() {
     // 타이머 종료
     if (count < 1) {
       isGameActive = false;
-      clearInterval(startCountDown);
+      if (startCountDown !== null) {
+        clearInterval(startCountDown);
+      }
       gameResult(); // 페이지 이동
     }
   }, 1000);
@@ -82,18 +88,18 @@ function gameResult() {
       healthWrapper.dataset.healthWrap = "success";
       addHealthExp();
 
-      const successSound = new Audio("/assets/sounds/success.mp3");
       successSound.currentTime = 0;
       successSound.volume = 1;
       successSound.play().catch(error => {
         console.error("사운드 재생 실패:", error);
       });
+
+      console.log("success");
     } else {
       // 달성하지 못했을 때 실패 페이지로 이동
       // healthWrapper.setAttribute("data-health-wrap", "fail");
       healthWrapper.dataset.healthWrap = "fail";
 
-      const failSound = new Audio("/assets/sounds/health_fail.mp3");
       failSound.currentTime = 0;
       failSound.volume = 1;
       failSound.play().catch(error => {
@@ -155,6 +161,9 @@ function spacebarEvent() {
         celebrateImg.classList.remove("hidden");
       }
       setTimeout(() => {
+        if (startCountDown !== null) {
+          clearInterval(startCountDown);
+        }
         gameResult();
       }, 1000);
     }

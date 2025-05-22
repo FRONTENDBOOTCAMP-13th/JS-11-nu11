@@ -1,6 +1,10 @@
 import "/src/style.css";
 
 document.addEventListener("DOMContentLoaded", function () {
+  const sleepSound = new Audio("/assets/sounds/sleep.m4a");
+  const drinkSound = new Audio("/assets/sounds/eat_drink.mp3");
+  const foodSound = new Audio("/assets/sounds/eat_food.m4a");
+
   const currentPage = localStorage.getItem("page") || "intro";
   const pageWrap = document.querySelector("[data-page-wrap]") as HTMLElement;
   const playWrap = document.querySelector("[data-play-wrap]") as HTMLElement;
@@ -11,9 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const food2 = document.querySelector("[data-food='hamburger']") as HTMLElement;
   const food3 = document.querySelector("[data-food='piza']") as HTMLElement;
 
-  let currentLevel = JSON.parse(localStorage.getItem("level") || "1");
-
-  const exPoint = parseInt(localStorage.getItem("exPoint") || "0", 10);
+  // let exPoint = parseInt(localStorage.getItem("exPoint") || "0", 10);
   const maxExPoint = 30; // 최대 경험치 (d:100)
 
   let hpPoint = parseInt(localStorage.getItem("hpPoint") || "100", 10);
@@ -21,15 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const hpBar = document.querySelectorAll(".hp_bar span") as NodeListOf<HTMLElement>;
   const hpBarTime = 500; // 체력감소 시간 설정 (d:1000)
   let hpBarInterval: number | null = null;
-
-  //----------------------------------------------------------
-
-  // let trashInterval: number | null = null;
-
-  setInterval(() => {
-    trash.classList.remove("hidden");
-    localStorage.setItem("trash", "on");
-  }, 1000 * 20);
 
   //----------------------------- [reload] -----------------------------
   /**
@@ -52,45 +45,58 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   hpBarSet();
 
+  function updateLevel(page: string): void {
+    const currentExPoint = parseInt(localStorage.getItem("exPoint") || "0", 10);
+    const expRatio = currentExPoint / maxExPoint;
+
+    let updateLevel;
+    if (expRatio <= 1 / 3) {
+      updateLevel = 1;
+    } else if (expRatio <= 2 / 3) {
+      updateLevel = 2;
+    } else {
+      updateLevel = 3;
+    }
+
+    localStorage.setItem("level", updateLevel.toString());
+    console.log(`레벨 업데이트: ${updateLevel} (경험치: ${currentExPoint}/${maxExPoint})`);
+
+    if (page === "play") {
+      playWrap.dataset.playWrap = updateLevel === 1 ? "hasu" : updateLevel === 2 ? "joongsu" : "gosu";
+    } else if (page === "sleep") {
+      sleepWrap.dataset.sleepWrap = updateLevel === 1 ? "hasu" : updateLevel === 2 ? "joongsu" : "gosu";
+    } else if (page === "eat") {
+      food1.classList.remove("hidden");
+      food2.classList.toggle("hidden", updateLevel < 2);
+      food3.classList.toggle("hidden", updateLevel < 3);
+    }
+
+    if (currentExPoint >= maxExPoint) {
+      pageWrap.dataset.pageWrap = "ending";
+      localStorage.setItem("exPoint", "0");
+
+      sleepSound.pause();
+      sleepSound.loop = false;
+      sleepSound.currentTime = 0;
+    }
+  }
+  updateLevel(currentPage);
+
   function pageWrapSet(): void {
     pageWrap.dataset.pageWrap = currentPage;
   }
   pageWrapSet();
 
-  function levelSet(page: string, level: number): void {
-    if (page === "play") {
-      if (level === 1) {
-        playWrap.dataset.playWrap = "hasu";
-      } else if (level === 2) {
-        playWrap.dataset.playWrap = "joongsu";
-      } else if (level === 3) {
-        playWrap.dataset.playWrap = "gosu";
-      }
-    } else if (page === "sleep") {
-      if (level === 1) {
-        sleepWrap.dataset.sleepWrap = "hasu";
-      } else if (level === 2) {
-        sleepWrap.dataset.sleepWrap = "joongsu";
-      } else if (level === 3) {
-        sleepWrap.dataset.sleepWrap = "gosu";
-      }
-    } else if (page === "eat") {
-      if (level === 1) {
-        food1.classList.remove("hidden");
-        food2.classList.add("hidden");
-        food3.classList.add("hidden");
-      } else if (level === 2) {
-        food1.classList.remove("hidden");
-        food2.classList.remove("hidden");
-        food3.classList.add("hidden");
-      } else if (level === 3) {
-        food1.classList.remove("hidden");
-        food2.classList.remove("hidden");
-        food3.classList.remove("hidden");
-      }
+  function trashSet(): void {
+    if (localStorage.getItem("trash") === "on") {
+      trash.classList.remove("hidden");
+      localStorage.setItem("trash", "on");
+    } else {
+      trash.classList.add("hidden");
+      localStorage.setItem("trash", "off");
     }
   }
-  levelSet(currentPage, currentLevel);
+  trashSet();
 
   //----------------------------- [init] -----------------------------
   /**
@@ -120,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
    * @description 체력 감소 또는 증가를 설정합니다.
    * @returns {void}
    */
-  const sleepSound = new Audio("/assets/sounds/sleep.m4a");
+
   function startHpBarInterval(type: "minus" | "plus"): void {
     const bgGreen = "bg-mdev-green";
     const bgOrange = "bg-mdev-orange";
@@ -184,57 +190,65 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //----------------------------------------------------------
   // 페이지 변화 감지
+  let trashInterval: number | null = null;
   const pageWrapObserver = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       if (mutation.type === "attributes" && mutation.attributeName === "data-page-wrap") {
         const currentPageState = pageWrap.dataset.pageWrap;
-        const currentExPoint = JSON.parse(localStorage.getItem("exPoint") || "0");
+        const currentExPoint = parseInt(localStorage.getItem("exPoint") || "0", 10);
 
-        const level1 = Math.floor(maxExPoint / 3);
-        const level2 = Math.floor((maxExPoint * 2) / 3);
-
-        if (currentExPoint >= 0 && currentExPoint <= level1) {
-          localStorage.setItem("level", "1");
-        } else if (currentExPoint > level1 && currentExPoint <= level2) {
-          localStorage.setItem("level", "2");
-        } else if (currentExPoint > level2 && currentExPoint <= maxExPoint) {
-          localStorage.setItem("level", "3");
+        if (currentPageState === "ending") {
+          stopHpBarInterval();
+          if (trashInterval) {
+            clearInterval(trashInterval);
+            trashInterval = null;
+          }
+          localStorage.setItem("exPoint", "0");
+          return;
         }
 
-        currentLevel = parseInt(localStorage.getItem("level") || "1", 10);
+        if (currentExPoint >= maxExPoint) {
+          localStorage.setItem("exPoint", "0");
+          pageWrap.dataset.pageWrap = "ending";
+          sleepSound.pause();
+          sleepSound.loop = false;
+          sleepSound.currentTime = 0;
+          return;
+        }
+
+        if (currentPageState) {
+          updateLevel(currentPageState);
+        }
+
         localStorage.setItem("page", currentPageState || "");
         localStorage.setItem("hpPoint", hpPoint.toString());
+
+        if (trashInterval) {
+          clearInterval(trashInterval);
+        }
+        trashInterval = setInterval(() => {
+          trash.classList.remove("hidden");
+          localStorage.setItem("trash", "on");
+        }, 1000 * 20);
+        trashSet();
 
         stopHpBarInterval();
 
         if (currentPageState === "intro") {
           initFnc();
-        } else if (currentPageState === "eat") {
-          levelSet(currentPageState, currentLevel);
         } else if (currentPageState === "eat_result") {
           setTimeout(() => {
             pageWrap.dataset.pageWrap = "play";
           }, 8000);
         } else if (currentPageState === "sleep") {
-          levelSet(currentPageState, currentLevel);
           startHpBarInterval("plus");
         } else if (currentPageState === "play") {
-          if (currentLevel === 1) {
-            playWrap.dataset.playWrap = "hasu";
-          } else if (currentLevel === 2) {
-            playWrap.dataset.playWrap = "joongsu";
-          } else if (currentLevel === 3) {
-            playWrap.dataset.playWrap = "gosu";
-          }
-
-          if (exPoint >= maxExPoint) {
-            pageWrap.dataset.pageWrap = "ending";
-          }
           startHpBarInterval("minus");
         }
       }
     });
   });
+
   // 페이지 변경 감지
   pageWrapObserver.observe(pageWrap, { attributes: true });
 
@@ -257,6 +271,9 @@ document.addEventListener("DOMContentLoaded", function () {
         pageWrap.dataset.pageWrap = "sleep";
       } else if (btn === "wakeup") {
         pageWrap.dataset.pageWrap = "play";
+        sleepSound.loop = false;
+        sleepSound.pause();
+        sleepSound.currentTime = 0;
       } else if (btn === "study") {
         window.location.href = "/src/pages/study/index.html";
       } else if (btn === "health") {
@@ -297,8 +314,6 @@ document.addEventListener("DOMContentLoaded", function () {
       pageWrap.dataset.pageWrap = "eat_result";
 
       const eatWrap = document.querySelector("[data-eat-wrap]") as HTMLElement;
-      const drinkSound = new Audio("/assets/sounds/eat_drink.mp3");
-      const foodSound = new Audio("/assets/sounds/eat_food.m4a");
 
       if (foodType === "drink") {
         eatWrap.dataset.eatWrap = "drink";

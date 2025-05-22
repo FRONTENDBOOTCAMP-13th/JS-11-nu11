@@ -59,6 +59,11 @@
       "emoji": "🧪 test: ",
       "code": ":test:",
       "description": "테스트 관련"
+    },
+    {
+      "emoji": "🌐",
+      "code": ":deploy:",
+      "description": "배포"
     }
   ],
   "gitmoji.onlyUseCustomEmoji": true,
@@ -66,5 +71,7 @@
   "editor.formatOnSave": true,
   "editor.quickSuggestions": {
     "strings": "on"
-  }
+  },
+  "workbench.settings.openDefaultKeybindings": true,
+  "indentRainbow.indentSetter": {}
 }

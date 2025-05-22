@@ -26,7 +26,7 @@ function countdown() {
 
   // TODO 1초 느리게 뜨는 이유 찾기
   // 게임 시작 시 초기 카운트 값 설정 ( 언제든지 수정 가능 )
-  let count = 20;
+  let count = 10;
   isGameActive = true; // 시작 되었을 때 값
   time.textContent = `${count}s`;
 
@@ -78,11 +78,27 @@ function gameResult() {
   // 게이지가 100일 때 성공 페이지로 이동
   if (healthWrapper instanceof HTMLElement) {
     if (achievementPercentage >= 100) {
-      healthWrapper.setAttribute("data-health-wrap", "success");
+      // healthWrapper.setAttribute("data-health-wrap", "success");
+      healthWrapper.dataset.healthWrap = "success";
       addHealthExp();
+
+      const successSound = new Audio("/assets/sounds/success.mp3");
+      successSound.currentTime = 0;
+      successSound.volume = 1;
+      successSound.play().catch(error => {
+        console.error("사운드 재생 실패:", error);
+      });
     } else {
       // 달성하지 못했을 때 실패 페이지로 이동
-      healthWrapper.setAttribute("data-health-wrap", "fail");
+      // healthWrapper.setAttribute("data-health-wrap", "fail");
+      healthWrapper.dataset.healthWrap = "fail";
+
+      const failSound = new Audio("/assets/sounds/health_fail.mp3");
+      failSound.currentTime = 0;
+      failSound.volume = 1;
+      failSound.play().catch(error => {
+        console.error("사운드 재생 실패:", error);
+      });
     }
   }
 }
